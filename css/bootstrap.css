@@ -7320,4 +7320,22 @@ button.close {
   }
 }
 
+#fixedTools{
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  background: #fff;
+  width: 36px;
+  text-align: center;
+  border-radius: 2px;
+  line-height: 1.25;
+  z-index: 1000;
+}
+#fixedTools a{
+  padding: 10px;
+  border: 1px solid #ddd;
+  display: block;
+  color: #999;
+  text-decoration: none;
+}
 /*# sourceMappingURL=bootstrap.css.map */
