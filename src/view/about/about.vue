@@ -3,9 +3,9 @@
     <div class="lin-info">
       <div class="lin-info-left">
         <div class="welcome">
-          <img src="../../assets/image/about/welcome.png" class="welcome-title" alt="" />
+          <div class="welcome-title">厦门数字孪生信息科技有限公司</div>
           <div class="subtitle">
-            <div class="guide">您还可以点击林间有风官方网站，查看更多作品</div>
+            <div class="guide">您还可以点击数字孪生官方网站，查看更多作品</div>
             <div class="link"><a href="https://www.talelin.com" target="_blank">https://talelin.com</a></div>
           </div>
         </div>
@@ -207,6 +207,8 @@ export default {
       .welcome {
         margin: 28px 0 0 30px;
         .welcome-title {
+          color: #fff;
+          font-size: 26px;
           width: 366px;
           height: 31px;
         }

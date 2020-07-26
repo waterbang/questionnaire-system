@@ -14,9 +14,6 @@ class Book {
     })
   }
 
-  // 在这里通过 async await 语法糖让代码同步执行
-  // 1. await 一定要搭配 async 来使用
-  // 2. await 后面跟的是一个 Promise 对象
   async getBook(id) {
     const res = await get(`v1/book/${id}`)
     return res

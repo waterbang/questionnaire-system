@@ -2,7 +2,7 @@
   <div>
     <!-- 列表页面 -->
     <div class="container" v-if="!showEdit">
-      <div class="header"><div class="title">图书列表</div></div>
+      <div class="header"><div class="title">文章列表</div></div>
       <!-- 表格 -->
       <lin-table
         :tableColumn="tableColumn"
@@ -48,7 +48,7 @@ export default {
         name: '删除',
         func: 'handleDelete',
         type: 'danger',
-        permission: '删除图书',
+        permission: '删除文章',
       },
     ]
     this.loading = false
@@ -70,7 +70,7 @@ export default {
       this.editBookID = val.row.id
     },
     handleDelete(val) {
-      this.$confirm('此操作将永久删除该图书, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',

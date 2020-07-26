@@ -18,6 +18,7 @@ module.exports = {
     'no-underscore-dangle': 0, // 无下划线
     'no-restricted-syntax': 0,
     'no-restricted-syntax': 0,
+    'linebreak-style': 0, // 换行警告
     'consistent-return': 'off',
     'no-prototype-builtins': 'off',
     'class-methods-use-this': 'off',

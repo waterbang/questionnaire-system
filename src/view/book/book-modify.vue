@@ -1,15 +1,15 @@
 <template>
   <div class="container">
     <div class="title">
-      <span>修改图书</span> <span class="back" @click="back"> <i class="iconfont icon-fanhui"></i> 返回 </span>
+      <span>修改文章</span> <span class="back" @click="back"> <i class="iconfont icon-fanhui"></i> 返回 </span>
     </div>
     <el-divider></el-divider>
     <div class="wrap">
       <el-row>
         <el-col :lg="16" :md="20" :sm="24" :xs="24">
           <el-form :model="form" status-icon ref="form" label-width="100px" v-loading="loading" @submit.native.prevent>
-            <el-form-item label="书名" prop="title">
-              <el-input size="medium" v-model="form.title" placeholder="请填写书名"></el-input>
+            <el-form-item label="文章名" prop="title">
+              <el-input size="medium" v-model="form.title" placeholder="请填写文章名"></el-input>
             </el-form-item>
             <el-form-item label="作者" prop="author">
               <el-input size="medium" v-model="form.author" placeholder="请填写作者"></el-input>

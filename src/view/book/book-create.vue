@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <div class="title">新建图书</div>
+    <div class="title">新建文章</div>
     <div class="wrap">
       <el-row>
         <el-col :lg="16" :md="20" :sm="24" :xs="24">
           <el-form :model="form" status-icon ref="form" label-width="100px" @submit.native.prevent>
-            <el-form-item label="书名" prop="title">
-              <el-input size="medium" v-model="form.title" placeholder="请填写书名"></el-input>
+            <el-form-item label="文章名" prop="title">
+              <el-input size="medium" v-model="form.title" placeholder="请填写文章名"></el-input>
             </el-form-item>
             <el-form-item label="作者" prop="author">
               <el-input size="medium" v-model="form.author" placeholder="请填写作者"></el-input>
@@ -63,7 +63,7 @@ export default {
         }
       } catch (error) {
         this.loading = false
-        this.$message.error('图书添加失败，请检测填写信息')
+        this.$message.error('文章添加失败，请检测填写信息')
         console.log(error)
       }
     },

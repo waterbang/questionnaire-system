@@ -1,7 +1,7 @@
 const bookRouter = {
   route: null,
   name: null,
-  title: '图书管理',
+  title: '文章管理',
   type: 'folder', // 类型: folder, tab, view
   icon: 'iconfont icon-tushuguanli',
   filePath: 'view/book/', // 文件路径
@@ -9,7 +9,7 @@ const bookRouter = {
   inNav: true,
   children: [
     {
-      title: '添加图书',
+      title: '添加文章',
       type: 'view',
       name: 'BookCreate',
       route: '/book/add',
@@ -18,7 +18,7 @@ const bookRouter = {
       icon: 'iconfont icon-tushuguanli',
     },
     {
-      title: '图书列表',
+      title: '文章列表',
       type: 'view',
       name: 'BookCreate',
       route: '/book/list',
