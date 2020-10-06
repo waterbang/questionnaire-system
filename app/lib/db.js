@@ -4,7 +4,7 @@ import { Sequelize } from 'sequelize';
 /**
  * 数据库名，默认lin-cms
  */
-const database = config.getItem('db.database', 'lin-cms');
+const database = config.getItem('db.database', 'questionnaire');
 
 /**
  * 数据库用户名，默认root
