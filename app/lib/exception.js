@@ -15,14 +15,14 @@ class BookNotFound extends HttpException {
   }
 }
 
-class SurveyNotFound extends HttpException {
+class SurveyStatusReleased extends HttpException {
   constructor (ex) {
     super();
-    this.status = 404;
-    this.code = 10022;
-    this.message = CodeMessage.getMessage(10022);
+    this.status = 304;
+    this.code = 10261;
+    this.message = CodeMessage.getMessage(10261);
     this.exceptionHandler(ex);
   }
 }
 
-export { BookNotFound, SurveyNotFound };
+export { BookNotFound, SurveyStatusReleased };

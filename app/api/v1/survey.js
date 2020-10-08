@@ -1,11 +1,12 @@
 import { LinRouter, NotFound, disableLoading } from 'lin-mizar';
-import { groupRequired, loginRequired } from '../../middleware/jwt';
-import { CreateOrUpdateSurveyValidator } from '../../validator/survey';
+import { loginRequired } from '../../middleware/jwt';
+import { CreateOrUpdateSurveyValidator, UpdateSurveyStatusValidator } from '../../validator/survey';
 import { PaginateValidator, PositiveIdValidator } from '../../validator/common';
 import { logger } from '../../middleware/logger';
 import { getSafeParamId } from '../../lib/util';
 import { SurveyDao } from '../../dao/survey';
-import { SurveyNotFound } from '../../lib/exception';
+import { SurveyNotFound, SurveyStatusReleased } from '../../lib/exception';
+import { statusRelease } from '../../config/setting';
 
 console.log(disableLoading);
 
@@ -16,6 +17,7 @@ const surveyApi = new LinRouter({
 
 const surveyDto = new SurveyDao();
 
+// 获取单个问卷
 surveyApi.get('/:id', async ctx => {
   const v = await new PositiveIdValidator().validate(ctx);
   const id = v.get('path.id');
@@ -28,6 +30,7 @@ surveyApi.get('/:id', async ctx => {
   ctx.json(survey);
 });
 
+// 获取全部问卷（分页）
 surveyApi.linGet(
   'getSurveys',
   '/',
@@ -49,6 +52,7 @@ surveyApi.linGet(
   }
 );
 
+// 创建问卷
 surveyApi.post('/', async ctx => {
   const v = await new CreateOrUpdateSurveyValidator().validate(ctx);
   await surveyDto.createSurvey(v);
@@ -57,6 +61,7 @@ surveyApi.post('/', async ctx => {
   });
 });
 
+// 更新问卷
 surveyApi.put('/:id', async ctx => {
   const v = await new CreateOrUpdateSurveyValidator().validate(ctx);
   const id = getSafeParamId(ctx);
@@ -66,12 +71,34 @@ surveyApi.put('/:id', async ctx => {
   });
 });
 
+// 更新问卷状态
+surveyApi.linPut(
+  'updateSurveyStatus',
+  '/update/status/:id',
+  surveyApi.permission('发布问卷'),
+  loginRequired,
+  logger('{user.username}发布了id为 {{request.path.id}} 的问卷'),
+  async ctx => {
+    const v = await new UpdateSurveyStatusValidator().validate(ctx);
+    const id = getSafeParamId(ctx);
+    const status = await surveyDto.getSurveyStatus(v, id);
+    if (status === statusRelease) { // 如果已发布
+      throw new SurveyStatusReleased();
+    }
+    await surveyDto.updateSurveyStatus(v, id);
+    return ctx.success({
+      code: 2
+    });
+  }
+)
+
+// 删除问卷
 surveyApi.linDelete(
   'deleteSurvey',
   '/:id',
   surveyApi.permission('删除问卷'),
-  groupRequired,
-  logger('{user.username}就是皮了一波'),
+  loginRequired,
+  logger('{user.username}删除了id为 {{response.body.id}} 的问卷'),
   async ctx => {
     const v = await new PositiveIdValidator().validate(ctx);
     const id = v.get('path.id');

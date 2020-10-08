@@ -13,6 +13,8 @@ module.exports = {
   debug: true,
   // refreshExp 设置refresh_token的过期时间，默认一个月
   refreshExp: 60 * 60 * 24 * 30,
+  statusRelease: 2, // 发布
+  statusEstablish: 1, // 创建
   // 暂不启用插件
   pluginPath: {
     // // plugin name

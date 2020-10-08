@@ -23,7 +23,7 @@ class SurveyDao {
     return {
       rows,
       total: count
-    }
+    };
   }
 
   async createSurvey (v) {
@@ -39,7 +39,6 @@ class SurveyDao {
     }
     const sy = new Survey();
     sy.title = v.get('body.title');
-    sy.status = v.get('body.status');
     sy.header_desc = v.get('body.header_desc');
     sy.footer_desc = v.get('body.footer_desc');
     sy.detail = v.get('body.detail');
@@ -54,10 +53,37 @@ class SurveyDao {
       });
     }
     survey.title = v.get('body.title');
-    survey.status = v.get('body.status');
     survey.header_desc = v.get('body.header_desc');
     survey.footer_desc = v.get('body.footer_desc');
     survey.detail = v.get('body.detail');
+    await survey.save();
+  }
+
+  async getSurveyStatus (v, id) {
+    const survey = await Survey.findOne({
+      where: {
+        id: id
+      },
+      attributes: ['status']
+    });
+    if (!survey) {
+      throw new NotFound({
+        code: 10022
+      });
+    }
+    return survey.status;
+  }
+
+  async updateSurveyStatus (v, id) {
+    const survey = await Survey.findByPk(id);
+    if (!survey) {
+      throw new NotFound({
+        code: 10022
+      });
+    }
+    const status = v.get('body.status');
+    console.log("status=>", status);
+    survey.status = status;
     await survey.save();
   }
 
