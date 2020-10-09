@@ -17,9 +17,9 @@ class SurveyDao {
     const { rows, count } = await Survey.findAndCountAll({
       offset: start * count1,
       limit: count1,
-      order: [['create_time', 'DESC']]
+      order: [['create_time', 'DESC']],
+      attributes: { exclude: ['update_time', 'delete_time'] }
     });
-    console.log('rows=> ', rows);
     return {
       rows,
       total: count
@@ -59,7 +59,7 @@ class SurveyDao {
     await survey.save();
   }
 
-  async getSurveyStatus (v, id) {
+  async getSurveyStatus (id) {
     const survey = await Survey.findOne({
       where: {
         id: id
@@ -82,7 +82,6 @@ class SurveyDao {
       });
     }
     const status = v.get('body.status');
-    console.log("status=>", status);
     survey.status = status;
     await survey.save();
   }

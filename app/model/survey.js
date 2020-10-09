@@ -11,7 +11,8 @@ class Survey extends Model {
       status: this.status,
       header_desc: this.header_desc,
       footer_desc: this.footer_desc,
-      detail: this.detail
+      detail: this.detail,
+      create_time: this.create_time
     };
     return origin;
   }
@@ -44,13 +45,17 @@ Survey.init(
     detail: {
       type: Sequelize.JSON,
       allowNull: false
+    },
+    create_time: {
+      type: Sequelize.DATE
     }
   },
   merge(
     {
       sequelize,
       tableName: 'survey',
-      modelName: 'survey'
+      modelName: 'survey',
+      createdAt: true
     },
     InfoCrudMixin.options
   )
