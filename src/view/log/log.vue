@@ -285,7 +285,7 @@ export default {
       .title {
         height: 59px;
         line-height: 59px;
-        color: #4c76af;
+        color: $parent-title-color;
         font-size: 16px;
         font-weight: 500;
       }

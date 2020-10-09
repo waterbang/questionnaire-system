@@ -3,10 +3,10 @@
     <div class="lin-info">
       <div class="lin-info-left">
         <div class="welcome">
-          <div class="welcome-title">厦门数字孪生信息科技有限公司</div>
+          <div class="welcome-title">🌽玉米问卷调查系统</div>
           <div class="subtitle">
-            <div class="guide">您还可以点击数字孪生官方网站，查看更多作品</div>
-            <div class="link"><a href="https://www.talelin.com" target="_blank">https://talelin.com</a></div>
+            <div class="guide">您还可以点击巨型玉米饼官方网站，查看更多作品</div>
+            <div class="link"><a href="https://nn.waterbang.top" target="_blank">https://nn.waterbang.top</a></div>
           </div>
         </div>
         <img class="welcome-bg" src="../../assets/image/about/header-bg.png" alt="" />
@@ -18,34 +18,28 @@
             <ul class="team-ul">
               <li>
                 <span class="shadow-box"> <i class="team-shadow"></i> </span> <span class="team-role">策划</span>
-                <span class="team-name">七月</span>
+                <span class="team-name">妮妮崽</span>
               </li>
               <li>
                 <span class="shadow-box"> <i class="team-shadow"></i> </span> <span class="team-role">研发</span>
                 <span class="team-name">
                   <ul v-if="!showTeam">
-                    <li>Pedro</li>
-                    <li>一飞</li>
-                    <li>凉面</li>
-                    <li>圈圈</li>
-                    <li>家乐</li>
-                    <li>Jocky</li>
-                    <li>流乔</li>
-                    <li>西麦</li>
+                    <li>妮妮崽</li>
+                    <li>waterbang</li>
                   </ul>
                   <ul v-else>
-                    <li>林间有风 CMS 组</li>
+                    <li>巨型玉米饼 CMS 组</li>
                   </ul>
                 </span>
               </li>
               <li>
                 <span class="shadow-box"> <i class="team-shadow"></i> </span> <span class="team-role">设计</span>
-                <span class="team-name">瓜瓜</span>
+                <span class="team-name">妮妮崽</span>
               </li>
             </ul>
           </div>
           <div class="team-icon"><img src="../../assets/image/about/qrcode.jpg" alt="" /></div>
-          <p class="team-label">林间有风公众号</p>
+          <p class="team-label">前端方舟公众号</p>
         </div>
       </div>
     </div>

@@ -176,7 +176,7 @@ export default {
 
 <style lang="scss" scoped>
 .aside {
-  background: rgb(25, 42, 94);
+  background: $parent-title-color;
   overflow-x: hidden;
 
   &::-webkit-scrollbar {
@@ -216,7 +216,7 @@ export default {
         margin-right: 10px;
 
         &:hover {
-          color: #3963bc;
+          color: #2e582d;
         }
       }
 

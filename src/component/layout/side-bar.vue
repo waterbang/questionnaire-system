@@ -25,7 +25,7 @@
         ref="meun"
         :default-active="defaultActive"
         :collapse="elMenuCollapse"
-        background-color="#192A5E"
+        background-color="#407c3e"
         text-color="rgba(196,201,210,1)"
         active-text-color="#1890ff"
       >
@@ -231,7 +231,7 @@ export default {
 }
 
 .app-sidebar {
-  background: #192a5e;
+  background: #407c3e;
 
   &::-webkit-scrollbar {
     width: 0px;
@@ -253,7 +253,7 @@ export default {
     font-size: 30px;
     color: #fff;
     transition: all 0.5s ease-in-out;
-    background-color: #122150;
+    background-color: #407c3e;
     transition: all 0.3s linear;
     position: sticky;
     top: 0;
@@ -272,7 +272,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #122150;
+    background-color: #407c3e;
     transition: all 0.3s linear;
 
     img {
