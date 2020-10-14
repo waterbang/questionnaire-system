@@ -1,1 +1,3 @@
 window.MAX_SUCCESS_CODE = 9998
+window.SURVEYPULISH = 2
+window.SURVEYEDIT = 1

@@ -81,11 +81,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .topic {
+  position: fixed;
+  right: 0;
   .choice {
     margin: 10px 0;
 
     .choice-title {
-      margin-bottom: 10px;
+      margin: 2rem 0 0 0;
+      text-align: center;
     }
 
     .base-dragg {

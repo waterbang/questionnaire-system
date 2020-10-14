@@ -145,6 +145,6 @@ export default {
 }
 
 .single-add {
-  margin: 10px auto;
+  margin: 10px;
 }
 </style>

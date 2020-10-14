@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="survey-card">
     <el-row :gutter="20">
       <el-col :span="6">
         <el-card class="new-project">
           <el-button @click="onCreateProject" type="primary" icon="el-icon-plus">新建项目</el-button>
         </el-card>
       </el-col>
-      <el-col :span="6" v-for="(item, index) in survey" :key="index">
+      <el-col :span="6" v-for="(item, index) in survey" :key="index.id">
         <suervey-item :survey="item" :index="index" @deleteItem="deleteItem"></suervey-item>
       </el-col>
     </el-row>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import suerveyItem from '../../component/suerveyItem/suerveyItem'
+import suerveyItem from './suerveyItem/suerveyItem'
 import surveyModel from '@/model/survey'
 
 export default {
@@ -32,7 +32,7 @@ export default {
     },
     // 创建项目
     onCreateProject() {
-      this.$router.push({ name: 'editsurvey' })
+      this.$router.push({ path: '/survey/edit/', query: { title: '编辑' } })
     },
     // 删除项目
     deleteItem(e) {
@@ -55,13 +55,16 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.new-project {
-  margin-bottom: 10px;
-  height: 200px;
-  width: 300px;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.survey-card {
+  margin-left: 10px;
+  .new-project {
+    margin-bottom: 10px;
+    height: 200px;
+    width: 300px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>

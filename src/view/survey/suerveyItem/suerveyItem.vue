@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import surveyModel from '../../model/survey'
+import surveyModel from '../../../model/survey'
 
 export default {
   props: {
@@ -79,12 +79,14 @@ export default {
     },
     // 发布问卷
     releaseTheQue() {
-      if (this.survey.status === 1) {
+      if (this.survey.status === window.SURVEYEDIT) {
         // 如果未发布
         surveyModel
           .putSendSurvey(this.survey.id)
           .then(res => {
-            if (res.status === 1) {
+            console.log(res)
+            if (res.status === 12) {
+              // 发布问卷成功
               this.$message({
                 message: res.message,
                 type: 'success',
@@ -105,7 +107,7 @@ export default {
     },
     // 编辑问卷
     editSuervey() {
-      if (this.survey.status === 1) {
+      if (this.survey.status === window.SURVEYPULISH) {
         this.$message({
           message: '已经发布的问卷不能更改！',
           type: 'warning',
@@ -113,12 +115,12 @@ export default {
         return
       }
       this.$router.push({
-        path: `/editsurvey/${this.survey.id}`,
+        path: `/survey/edit?id=${this.survey.id}`,
       })
     },
     deleteItem(id) {
       surveyModel.deleteSurvey(id).then(res => {
-        if (res.delete_status === 1) {
+        if (res.code === 14) {
           this.$notify({
             title: '删除成功',
             message: res.message,
@@ -157,9 +159,6 @@ export default {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-    }
-
-    .tag {
     }
   }
 
