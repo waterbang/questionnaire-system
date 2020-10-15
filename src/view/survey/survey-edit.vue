@@ -38,7 +38,7 @@
           <div class="quest-main">
             <vuedraggable
               class="draggable"
-              v-if="surveyData.detail"
+              v-if="surveyData.detail.length"
               :list="surveyData.detail"
               group="_data"
               :options="{ handle: '.handle' }"
@@ -136,7 +136,9 @@
                 </div>
               </div>
             </vuedraggable>
-            <div class="text-centre" v-if="!surveyData.detail"><i class="el-icon-plus"></i>将右边的题目拖到此处</div>
+            <div class="text-centre" v-if="!surveyData.detail.length">
+              <i class="el-icon-plus"></i>将右边的题目拖到此处
+            </div>
           </div>
           <el-footer class="edit-footer">
             <div class="footer-end">
@@ -170,9 +172,10 @@ import { _loading, DeepClone } from '../../lin/util/common'
 
 export default {
   name: 'EditSurvey',
+  inject: ['eventBus'],
   data() {
     return {
-      title: '问卷',
+      question_list: ['SingleChoice'],
       id: null, // id
       surveyData: {
         title: '这里是默认的问卷标题',
@@ -278,7 +281,7 @@ export default {
       surveyModel
         .createSurvey(this.surveyData)
         .then(res => {
-          if (res.status === 12) {
+          if (res.code === 12) {
             this.$notify({
               title: '创建成功',
               message: '恭喜你创建问卷成功',
@@ -313,10 +316,10 @@ export default {
           console.log(err)
         })
     },
-    async editSuervey(id) {
+    editSuervey(id) {
       // 导入编辑数据
       _loading(this, '获取问卷信息')
-      await surveyModel
+      surveyModel
         .getSurvey(id)
         .then(res => {
           if (res.status === window.SURVEYPULISH) {
@@ -331,11 +334,12 @@ export default {
         })
     },
   },
-  async mounted() {
-    const { id } = this.$route.query
+  mounted() {
+    const { id } = this.$route.params
+    this.eventBus.$emit('clearTap')
     if (id) {
       this.isEdit = false // 标记为修改
-      await this.editSuervey(id) // 如果传递id就是修改
+      this.editSuervey(id) // 如果传递id就是修改
     } else {
       this.isEdit = true // 标记为创建
     }

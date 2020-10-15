@@ -1,8 +1,8 @@
 ## 问卷调查系统
-master分支是前台，koa分支是后端，cms分支是后台管理端。
+master分支是前台，koa分支是后端
 
 ### 1. 文件目录及说明
-+ backend  后端代码 使用python flask搭建的服务器
+后端代码 使用node koa2搭建的服务器
 	+ application	包含后端接口路由配置，访问MySQL数据库配置及模型
 		get_data.py	从MySQL中获取问卷数据
 		models.py	ORM数据库模型

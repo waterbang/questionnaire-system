@@ -32,6 +32,7 @@ class Survey {
     return res
   }
 
+  // 发布问卷
   async putSendSurvey(id) {
     const res = await put(`/v1/survey/update/status/${id}`, {
       status: 2,

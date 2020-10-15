@@ -84,15 +84,14 @@ export default {
         surveyModel
           .putSendSurvey(this.survey.id)
           .then(res => {
-            console.log(res)
-            if (res.status === 12) {
+            if (res.code === 16) {
               // 发布问卷成功
               this.$message({
                 message: res.message,
                 type: 'success',
               })
               this.$router.push({
-                path: `/fillsurvey/${res.announced_survey_id}`,
+                path: `/fillsurvey/${this.survey.id}`,
               })
             }
           })
@@ -115,7 +114,7 @@ export default {
         return
       }
       this.$router.push({
-        path: `/survey/edit?id=${this.survey.id}`,
+        path: `/survey/edit/${this.survey.id}`,
       })
     },
     deleteItem(id) {

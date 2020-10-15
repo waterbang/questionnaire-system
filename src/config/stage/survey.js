@@ -8,19 +8,28 @@ const surveyRouter = {
   inNav: true,
   children: [
     {
-      route: '/survey/list',
-      name: 'survey',
       title: '问卷列表',
-      type: 'view', // 类型: folder, tab, view
-      icon: null,
-      filePath: 'view/survey/survey-card.vue', // 文件路径
-      inNav: false,
+      type: 'view',
+      name: 'SurveyCreate',
+      route: '/survey/list',
+      filePath: 'view/survey/survey-card.vue',
+      inNav: true,
+      icon: 'iconfont icon-tushuguanli',
     },
     {
       route: '/survey/edit',
+      name: 'SurveyCreate',
+      title: '问卷创建',
+      type: 'view', // 类型: folder, tab, view
+      icon: null,
+      filePath: 'view/survey/survey-edit.vue', // 文件路径
+      inNav: false,
+    },
+    {
+      route: '/survey/edit/:id',
       title: '问卷编辑',
       type: 'view',
-      name: 'surveyEdit',
+      name: 'SurveyEdit',
       filePath: 'view/survey/survey-edit.vue',
       inNav: false,
       icon: 'iconfont icon-gengduo',

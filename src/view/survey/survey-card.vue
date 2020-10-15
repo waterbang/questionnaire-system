@@ -32,7 +32,7 @@ export default {
     },
     // 创建项目
     onCreateProject() {
-      this.$router.push({ path: '/survey/edit/', query: { title: '编辑' } })
+      this.$router.push({ path: '/survey/edit/' })
     },
     // 删除项目
     deleteItem(e) {
@@ -41,13 +41,6 @@ export default {
   },
   mounted() {
     this._getSurveyList()
-  },
-  watch: {
-    $route(to) {
-      if (to.path === '/home') {
-        window.location.reload()
-      }
-    },
   },
   components: {
     suerveyItem,
