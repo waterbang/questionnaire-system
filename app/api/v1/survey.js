@@ -5,7 +5,7 @@ import { PaginateValidator, PositiveIdValidator } from '../../validator/common';
 import { logger } from '../../middleware/logger';
 import { getSafeParamId } from '../../lib/util';
 import { SurveyDao } from '../../dao/survey';
-import { SurveyNotFound, SurveyStatusReleased } from '../../lib/exception';
+import { SurveyStatusReleased } from '../../lib/exception';
 import { statusRelease } from '../../config/setting';
 
 console.log(disableLoading);
@@ -39,7 +39,7 @@ surveyApi.linGet(
     const v = await new PaginateValidator().validate(ctx);
     const { rows, total } = await surveyDto.getSurveys(v);
     if (!rows || rows.length < 1) {
-      throw new SurveyNotFound({
+      throw new NotFound({
         code: 10260
       });
     }
@@ -77,28 +77,41 @@ surveyApi.linPut(
   '/update/status/:id',
   surveyApi.permission('发布问卷'),
   loginRequired,
-  logger('{user.username}发布了id为 {{request.path.id}} 的问卷'),
+  logger('{user.username} 发布了id为 {request.body.id} 的问卷'),
   async ctx => {
     const v = await new UpdateSurveyStatusValidator().validate(ctx);
     const id = getSafeParamId(ctx);
-    const status = await surveyDto.getSurveyStatus(v, id);
+    const status = await surveyDto.getSurveyStatus(id);
     if (status === statusRelease) { // 如果已发布
       throw new SurveyStatusReleased();
     }
     await surveyDto.updateSurveyStatus(v, id);
     return ctx.success({
-      code: 2
+      code: 16
     });
   }
-)
+);
 
+// 收集问卷
+surveyApi.linPost(
+  'fillSurvey',
+  '/fill/:id',
+  async ctx => {
+    const v = await new PositiveIdValidator().validate(ctx);
+    const id = v.get('path.id');
+    ctx.body = {
+      id,
+      ip: ctx.ip,
+      ctx
+    }
+  });
 // 删除问卷
 surveyApi.linDelete(
   'deleteSurvey',
   '/:id',
   surveyApi.permission('删除问卷'),
   loginRequired,
-  logger('{user.username}删除了id为 {{response.body.id}} 的问卷'),
+  logger('{user.username}删除了id为 {request.path} 的问卷'),
   async ctx => {
     const v = await new PositiveIdValidator().validate(ctx);
     const id = v.get('path.id');

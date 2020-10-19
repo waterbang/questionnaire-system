@@ -2,17 +2,14 @@ import { InfoCrudMixin } from 'lin-mizar';
 import { merge } from 'lodash';
 import { Sequelize, Model } from 'sequelize';
 import sequelize from '../lib/db';
+import { Survey } from './survey';
 
 class Rule extends Model {
   toJSON () {
     const origin = {
       id: this.id,
-      is_copy: this.is_copy,
-      is_login: this.is_login,
-      limit_ip: this.limit_ip,
-      remind_wx: this.remind_wx,
-      start_time: this.start_time,
-      close_time: this.close_time
+      survey_id: this.survey_id,
+      detail_rule: this.detail_rule
     };
     return origin;
   }
@@ -25,39 +22,53 @@ Rule.init(
       primaryKey: true,
       autoIncrement: true
     },
-    is_copy: {
-      type: Sequelize.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
+    survey_id: {
+      type: Sequelize.INTEGER,
+      unique: true,
+      references: {
+        model: Survey,
+        key: 'id'
+      },
+      comment: '问卷id'
     },
-    is_login: {
-      type: Sequelize.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    limit_ip: {
-      type: Sequelize.inTEGER,
-      allowNull: true,
-      defaultValue: 0
-    },
-    remind_wx: {
-      type: Sequelize.BOOLEAN,
-      allowNull: true
-    },
-    start_time: {
-      type: Sequelize.DATE,
-      allowNull: true
-    },
-    close_time: {
-      type: Sequelize.DATE,
-      allowNull: true
+    // is_copy: {
+    //   type: Sequelize.BOOLEAN,
+    //   allowNull: true,
+    //   comment: '是否可以复制',
+    //   defaultValue: false
+    // },
+    // is_login: {
+    //   type: Sequelize.BOOLEAN,
+    //   allowNull: true,
+    //   comment: '是否需要登录',
+    //   defaultValue: false
+    // },
+    // limit_ip: {
+    //   type: Sequelize.INTEGER,
+    //   allowNull: true,
+    //   comment: '限制每个ip可以填几次',
+    //   defaultValue: 0
+    // },
+    // remind_wx: {
+    //   type: Sequelize.BOOLEAN,
+    //   comment: '是否发送微信通知',
+    //   allowNull: true
+    // },
+    detail_rule: {
+      type: Sequelize.JSON,
+      allowNull: false
     }
   },
   merge(
     {
       sequelize,
       tableName: 'rule',
-      modelName: 'rule'
+      modelName: 'rule',
+      indexes: [{
+        name: 'rule_del',
+        method: 'BTREE',
+        fields: ['survey_id']
+      }]
     },
     InfoCrudMixin.options
   )

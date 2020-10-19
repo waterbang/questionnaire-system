@@ -1,5 +1,5 @@
 import { InfoCrudMixin } from 'lin-mizar';
-import { merge } from 'lodash';
+import { has, get, merge } from 'lodash';
 import { Sequelize, Model } from 'sequelize';
 import sequelize from '../lib/db';
 
@@ -14,6 +14,12 @@ class Survey extends Model {
       detail: this.detail,
       create_time: this.create_time
     };
+    if (has(this, 'detail_rule')) {
+      return { ...origin, detail_rule: get(this, 'detail_rule', []).detail_rule };
+    }
+    if (has(this, 'rule')) {
+      return { ...origin, rule: get(this, 'rule', []).detail_rule };
+    }
     return origin;
   }
 }
@@ -55,7 +61,9 @@ Survey.init(
       sequelize,
       tableName: 'survey',
       modelName: 'survey',
-      createdAt: true
+      createdAt: true,
+      charset: 'utf8mb4',
+      collate: 'utf8mb4_unicode_ci'
     },
     InfoCrudMixin.options
   )

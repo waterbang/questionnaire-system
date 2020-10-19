@@ -1,5 +1,10 @@
 import { NotFound, Forbidden } from 'lin-mizar';
 import { Survey } from '../model/survey';
+import { Rule } from '../model/rule';
+import { set } from 'lodash';
+import sequelize from '../lib/db';
+
+Survey.hasOne(Rule, { foreignKey: 'survey_id' });
 
 class SurveyDao {
   async getSurvey (id) {
@@ -8,6 +13,13 @@ class SurveyDao {
         id
       }
     });
+    const rule = await Rule.findOne({
+      where: {
+        survey_id: id
+      },
+      attributes: ['detail_rule']
+    });
+    set(survey, 'detail_rule', rule)
     return survey;
   }
 
@@ -18,7 +30,11 @@ class SurveyDao {
       offset: start * count1,
       limit: count1,
       order: [['create_time', 'DESC']],
-      attributes: { exclude: ['update_time', 'delete_time'] }
+      include: [
+        { model: Rule,
+          attributes: ['detail_rule']
+        }
+      ]
     });
     return {
       rows,
@@ -37,12 +53,25 @@ class SurveyDao {
         code: 10240
       });
     }
-    const sy = new Survey();
-    sy.title = v.get('body.title');
-    sy.header_desc = v.get('body.header_desc');
-    sy.footer_desc = v.get('body.footer_desc');
-    sy.detail = v.get('body.detail');
-    await sy.save();
+    let transaction;
+    try {
+      transaction = await sequelize.transaction();
+      const sy = new Survey();
+      sy.title = v.get('body.title');
+      sy.header_desc = v.get('body.header_desc');
+      sy.footer_desc = v.get('body.footer_desc');
+      sy.detail = v.get('body.detail');
+      await sy.save({ transaction });
+      const ru = new Rule();
+      ru.survey_id = sy.id;
+      ru.detail_rule = v.get('body.rule');
+      await ru.save({ transaction });
+
+      await transaction.commit();
+    } catch (err) {
+      if (transaction) await transaction.rollback();
+    }
+    return true;
   }
 
   async updateSurvey (v, id) {
