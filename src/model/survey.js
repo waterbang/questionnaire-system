@@ -36,6 +36,7 @@ class Survey {
   async putSendSurvey(id) {
     const res = await put(`/v1/survey/update/status/${id}`, {
       status: 2,
+      id,
     })
     return res
   }
