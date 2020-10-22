@@ -81,6 +81,7 @@ function applyJwt (app) {
  */
 async function createApp () {
   const app = new Koa();
+  app.proxy = true; // 为了获取真实ip地址
   applyBodyParse(app);
   applyCors(app);
   applyStatic(app);

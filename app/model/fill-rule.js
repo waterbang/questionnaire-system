@@ -3,18 +3,19 @@ import { merge } from 'lodash';
 import { Sequelize, Model } from 'sequelize';
 import sequelize from '../lib/db';
 
-class Fill extends Model {
+class FillRule extends Model {
   toJSON () {
     const origin = {
       id: this.id,
       survey_id: this.survey_id,
-      detail: this.detail
+      ip: this.ip,
+      username: this.username
     };
     return origin;
   }
 }
 
-Fill.init(
+FillRule.init(
   {
     id: {
       type: Sequelize.INTEGER,
@@ -26,19 +27,25 @@ Fill.init(
       allowNull: false,
       comment: '问卷id'
     },
-    detail: {
-      type: Sequelize.JSON,
-      allowNull: false,
-      comment: '收集的详情'
+    ip: {
+      type: Sequelize.STRING(30),
+      allowNull: true,
+      comment: '限制每个ip可以填几次',
+      defaultValue: 0
+    },
+    username: {
+      type: Sequelize.STRING(20),
+      allowNull: true,
+      defaultValue: null
     }
   },
   merge(
     {
       sequelize,
-      tableName: 'fill',
-      modelName: 'fill',
+      tableName: 'fill-rule',
+      modelName: 'fill-rule',
       indexes: [{
-        name: 'fill_del',
+        name: 'fill_rule_del',
         method: 'BTREE',
         fields: ['survey_id']
       }]
@@ -47,4 +54,4 @@ Fill.init(
   )
 );
 
-export { Fill as FillModel };
+export { FillRule as FillRuleModel };

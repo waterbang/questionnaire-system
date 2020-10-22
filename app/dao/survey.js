@@ -1,16 +1,13 @@
 import { NotFound, Forbidden } from 'lin-mizar';
 import { Survey } from '../model/survey';
 import { Rule } from '../model/rule';
-import { FillModel } from '../model/fill';
 import { RuleDao } from './rule';
-import { FillDao } from './fill';
+
 import { set } from 'lodash';
 import sequelize from '../lib/db';
 
-Survey.hasMany(FillModel, { foreignKey: 'survey_id' }); // 一对多
 Survey.hasOne(Rule, { foreignKey: 'survey_id' }); // 一对一
 const ruleDao = new RuleDao();
-const fillDao = new FillDao();
 
 class SurveyDao {
   async validatorSurvey (id) {
@@ -148,13 +145,6 @@ class SurveyDao {
     } catch (err) {
       if (transaction) await transaction.rollback();
     }
-  }
-
-  async fillSurvey (v) {
-    const id = v.get('path.id');
-    const detail = v.get('body.detail');
-    const fill = await fillDao.createFill(id, detail);
-    fill.save();
   }
 }
 

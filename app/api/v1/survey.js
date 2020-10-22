@@ -5,8 +5,9 @@ import { PaginateValidator, PositiveIdValidator } from '../../validator/common';
 import { logger } from '../../middleware/logger';
 import { getSafeParamId } from '../../lib/util';
 import { SurveyDao } from '../../dao/survey';
-import { SurveyStatusReleased } from '../../lib/exception';
-import { statusRelease } from '../../config/setting';
+import { FillDao } from '../../dao/fill';
+import { SurveyStatusReleased, SurveyNotRelease } from '../../lib/exception';
+import { statusRelease, statusEstablish } from '../../config/setting';
 
 console.log(disableLoading);
 
@@ -16,6 +17,7 @@ const surveyApi = new LinRouter({
 });
 
 const surveyDto = new SurveyDao();
+const fillDao = new FillDao();
 
 // 获取单个问卷
 surveyApi.get('/:id', async ctx => {
@@ -93,7 +95,11 @@ surveyApi.linPost(
   '/fill/:id',
   async ctx => {
     const v = await new FillSurveyValidator().validate(ctx);
-    await surveyDto.fillSurvey(v);
+    const status = await surveyDto.getSurveyStatus(v.get('path.id'));
+    if (status === statusEstablish) { // 如果未发布
+      throw new SurveyNotRelease();
+    }
+    await fillDao.fillSurvey(v, ctx.request.ip);
     return ctx.success({
       code: 17
     });

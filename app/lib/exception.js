@@ -25,4 +25,14 @@ class SurveyStatusReleased extends HttpException {
   }
 }
 
-export { BookNotFound, SurveyStatusReleased };
+class SurveyNotRelease extends HttpException {
+  constructor (ex) {
+    super();
+    this.status = 403;
+    this.code = 10262;
+    this.message = CodeMessage.getMessage(10262);
+    this.exceptionHandler(ex);
+  }
+}
+
+export { BookNotFound, SurveyStatusReleased, SurveyNotRelease };
