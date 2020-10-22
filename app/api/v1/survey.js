@@ -1,6 +1,6 @@
 import { LinRouter, NotFound, disableLoading } from 'lin-mizar';
 import { loginRequired } from '../../middleware/jwt';
-import { CreateOrUpdateSurveyValidator, UpdateSurveyStatusValidator } from '../../validator/survey';
+import { CreateOrUpdateSurveyValidator, UpdateSurveyStatusValidator, FillSurveyValidator } from '../../validator/survey';
 import { PaginateValidator, PositiveIdValidator } from '../../validator/common';
 import { logger } from '../../middleware/logger';
 import { getSafeParamId } from '../../lib/util';
@@ -22,11 +22,6 @@ surveyApi.get('/:id', async ctx => {
   const v = await new PositiveIdValidator().validate(ctx);
   const id = v.get('path.id');
   const survey = await surveyDto.getSurvey(id);
-  if (!survey) {
-    throw new NotFound({
-      code: 10022
-    });
-  }
   ctx.json(survey);
 });
 
@@ -97,14 +92,13 @@ surveyApi.linPost(
   'fillSurvey',
   '/fill/:id',
   async ctx => {
-    const v = await new PositiveIdValidator().validate(ctx);
-    const id = v.get('path.id');
-    ctx.body = {
-      id,
-      ip: ctx.ip,
-      ctx
-    }
+    const v = await new FillSurveyValidator().validate(ctx);
+    await surveyDto.fillSurvey(v);
+    return ctx.success({
+      code: 17
+    });
   });
+
 // 删除问卷
 surveyApi.linDelete(
   'deleteSurvey',

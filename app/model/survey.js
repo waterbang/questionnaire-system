@@ -15,10 +15,10 @@ class Survey extends Model {
       create_time: this.create_time
     };
     if (has(this, 'detail_rule')) {
-      return { ...origin, detail_rule: get(this, 'detail_rule', []).detail_rule };
+      return { ...origin, detail_rule: get(this, 'detail_rule', []) };
     }
     if (has(this, 'rule')) {
-      return { ...origin, rule: get(this, 'rule', []).detail_rule };
+      return { ...origin, rule: get(this, 'rule', []) };
     }
     return origin;
   }

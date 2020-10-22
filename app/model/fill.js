@@ -4,20 +4,18 @@ import { Sequelize, Model } from 'sequelize';
 import sequelize from '../lib/db';
 import { Survey } from './survey';
 
-class Rule extends Model {
+class Fill extends Model {
   toJSON () {
     const origin = {
       id: this.id,
       survey_id: this.survey_id,
-      is_copy: this.is_copy,
-      is_login: this.is_login,
-      limit_ip: this.limit_ip
+      detail: this.detail
     };
     return origin;
   }
 }
 
-Rule.init(
+Fill.init(
   {
     id: {
       type: Sequelize.INTEGER,
@@ -26,39 +24,24 @@ Rule.init(
     },
     survey_id: {
       type: Sequelize.INTEGER,
-      unique: true,
       references: {
         model: Survey,
         key: 'id'
       },
       comment: '问卷id'
     },
-    is_copy: {
-      type: Sequelize.BOOLEAN,
-      allowNull: true,
-      comment: '是否可以复制',
-      defaultValue: false
-    },
-    is_login: {
-      type: Sequelize.BOOLEAN,
-      allowNull: true,
-      comment: '是否需要登录',
-      defaultValue: false
-    },
-    limit_ip: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      comment: '限制每个ip可以填几次',
-      defaultValue: 0
+    detail: {
+      type: Sequelize.JSON,
+      allowNull: false
     }
   },
   merge(
     {
       sequelize,
-      tableName: 'rule',
-      modelName: 'rule',
+      tableName: 'fill',
+      modelName: 'fill',
       indexes: [{
-        name: 'rule_del',
+        name: 'fill_del',
         method: 'BTREE',
         fields: ['survey_id']
       }]
@@ -67,4 +50,4 @@ Rule.init(
   )
 );
 
-export { Rule };
+export { Fill as FillModel };

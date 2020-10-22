@@ -19,4 +19,11 @@ class UpdateSurveyStatusValidator extends PositiveIdValidator {
   }
 }
 
-export { CreateOrUpdateSurveyValidator, UpdateSurveyStatusValidator };
+class FillSurveyValidator extends PositiveIdValidator {
+  constructor () {
+    super();
+    this.detail = new Rule('isNotEmpty', '填写详情不能为空');
+  }
+}
+
+export { CreateOrUpdateSurveyValidator, UpdateSurveyStatusValidator, FillSurveyValidator };

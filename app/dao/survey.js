@@ -1,25 +1,32 @@
 import { NotFound, Forbidden } from 'lin-mizar';
 import { Survey } from '../model/survey';
 import { Rule } from '../model/rule';
+import { FillModel } from '../model/fill';
+import { RuleDao } from './rule';
+import { FillDao } from './fill';
 import { set } from 'lodash';
 import sequelize from '../lib/db';
 
-Survey.hasOne(Rule, { foreignKey: 'survey_id' });
+Survey.hasMany(FillModel, { foreignKey: 'survey_id' }); // 一对多
+Survey.hasOne(Rule, { foreignKey: 'survey_id' }); // 一对一
+const ruleDao = new RuleDao();
+const fillDao = new FillDao();
 
 class SurveyDao {
+  async validatorSurvey (id) {
+    const survey = await Survey.findByPk(id);
+    if (!survey) {
+      throw new NotFound({
+        code: 10022
+      });
+    }
+    return survey;
+  }
+
   async getSurvey (id) {
-    const survey = await Survey.findOne({
-      where: {
-        id
-      }
-    });
-    const rule = await Rule.findOne({
-      where: {
-        survey_id: id
-      },
-      attributes: ['detail_rule']
-    });
-    set(survey, 'detail_rule', rule)
+    const survey = await this.validatorSurvey(id);
+    const rule = await ruleDao.getRule(id);
+    set(survey, 'detail_rule', rule);
     return survey;
   }
 
@@ -32,7 +39,7 @@ class SurveyDao {
       order: [['create_time', 'DESC']],
       include: [
         { model: Rule,
-          attributes: ['detail_rule']
+          attributes: ['is_copy', 'is_login', 'limit_ip']
         }
       ]
     });
@@ -64,28 +71,38 @@ class SurveyDao {
       await sy.save({ transaction });
       const ru = new Rule();
       ru.survey_id = sy.id;
-      ru.detail_rule = v.get('body.rule');
+      ru.is_copy = v.get('body.rule.is_copy') || false;
+      ru.is_login = v.get('body.rule.is_login') || false;
+      ru.limit_ip = v.get('body.rule.limit_ip') || 0;
       await ru.save({ transaction });
 
       await transaction.commit();
     } catch (err) {
       if (transaction) await transaction.rollback();
     }
-    return true;
   }
 
   async updateSurvey (v, id) {
-    const survey = await Survey.findByPk(id);
-    if (!survey) {
-      throw new NotFound({
-        code: 10022
-      });
+    await this.validatorSurvey(id);
+    let transaction;
+    try {
+      transaction = await sequelize.transaction();
+      const sy = new Survey();
+      sy.title = v.get('body.title');
+      sy.header_desc = v.get('body.header_desc');
+      sy.footer_desc = v.get('body.footer_desc');
+      sy.detail = v.get('body.detail');
+      await sy.save({ transaction });
+      const ru = new Rule();
+      ru.survey_id = sy.id;
+      ru.is_copy = v.get('body.rule.is_copy') || false;
+      ru.is_login = v.get('body.rule.is_login') || false;
+      ru.limit_ip = v.get('body.rule.limit_ip') || 0;
+      await ru.save({ transaction });
+      await transaction.commit();
+    } catch (err) {
+      if (transaction) await transaction.rollback();
     }
-    survey.title = v.get('body.title');
-    survey.header_desc = v.get('body.header_desc');
-    survey.footer_desc = v.get('body.footer_desc');
-    survey.detail = v.get('body.detail');
-    await survey.save();
   }
 
   async getSurveyStatus (id) {
@@ -104,29 +121,40 @@ class SurveyDao {
   }
 
   async updateSurveyStatus (v, id) {
-    const survey = await Survey.findByPk(id);
-    if (!survey) {
-      throw new NotFound({
-        code: 10022
-      });
-    }
+    const survey = await this.validatorSurvey(id);
     const status = v.get('body.status');
     survey.status = status;
     await survey.save();
   }
 
   async deleteSurvey (id) {
-    const survey = await Survey.findOne({
-      where: {
-        id
-      }
-    });
-    if (!survey) {
-      throw new NotFound({
-        code: 10022
+    await this.validatorSurvey(id);
+    let transaction;
+    try {
+      transaction = await sequelize.transaction();
+      await Survey.destroy({
+        where: {
+          id
+        },
+        transaction
       });
+      await Rule.destroy({
+        where: {
+          id
+        },
+        transaction
+      });
+      await transaction.commit();
+    } catch (err) {
+      if (transaction) await transaction.rollback();
     }
-    survey.destroy();
+  }
+
+  async fillSurvey (v) {
+    const id = v.get('path.id');
+    const detail = v.get('body.detail');
+    const fill = await fillDao.createFill(id, detail);
+    fill.save();
   }
 }
 
