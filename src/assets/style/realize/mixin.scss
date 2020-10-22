@@ -50,3 +50,26 @@
     opacity: $opacity;
   }
 }
+
+
+$breakpoints: (
+  'xs': 'only screen and ( max-width: 480px)',
+  'sm': 'only screen and ( max-width: 768px)',
+  'md': 'only screen and ( max-width: 992px)',
+  'lg': 'only screen and ( max-width: 1200px)',
+) !default;
+
+// _mixins.scss
+@mixin respond-to($breakpoint) {
+  $query: map-get($breakpoints, $breakpoint);
+  // 这里是scss error提示估计大部分人（包括我）都没怎么使用过
+  @if not $query {
+    @error 'No value found for #{$breakpoint}. Please make sure it is
+    defined in $breakpoints map ';
+  }
+   // 具体断点解释在这里，作者比较严谨，校验了$query合法性
+  @media #{if(type-of($query) == 'string', unquote($query), inspect($query))}
+   {
+    @content;
+  }
+}

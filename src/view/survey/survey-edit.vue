@@ -214,8 +214,9 @@ export default {
     showSubQuestions(flag) {
       this.showSub = flag
     },
-    // 深度克隆数据防止重用
+    // 获取题目
     cloneData(data) {
+      // 深度克隆数据防止重用
       const item = DeepClone(data)
       this.surveyData.detail.push(item)
     },
@@ -278,6 +279,7 @@ export default {
     },
     // 创建问卷
     createData() {
+      console.log(this.surveyData)
       surveyModel
         .createSurvey(this.surveyData)
         .then(res => {

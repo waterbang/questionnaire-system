@@ -1,4 +1,4 @@
-import _axios, { get, put, _delete } from '@/lin/plugin/axios'
+import _axios, { get, put, _delete, post } from '@/lin/plugin/axios'
 
 class Survey {
   async createSurvey(data) {
@@ -37,6 +37,14 @@ class Survey {
     const res = await put(`/v1/survey/update/status/${id}`, {
       status: 2,
       id,
+    })
+    return res
+  }
+
+  async fillSurvey(id, username, detail) {
+    const res = await post(`/v1/survey/fill/${id}`, {
+      username,
+      detail,
     })
     return res
   }

@@ -6,6 +6,7 @@ import mutations from './mutation'
 import state from './state'
 import * as getters from './getter'
 import actions from './action'
+import surveyStore from './module/survey'
 
 Vue.use(Vuex)
 
@@ -22,6 +23,9 @@ const vuexLocal = new VuexPersistence({
 const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
+  modules: {
+    surveyStore,
+  },
   state,
   getters,
   mutations,

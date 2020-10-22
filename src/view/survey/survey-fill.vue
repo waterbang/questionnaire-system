@@ -118,11 +118,12 @@
 import surveyModel from '../../model/survey'
 import { DeepClone } from '../../lin/util/common'
 
+let surveyId = 1
+let username = null
 export default {
   name: 'fillsurvey',
   data() {
     return {
-      surveyId: 1,
       surveyData: {},
       sinRadio: '1',
       elseCont: '', // 其他
@@ -183,13 +184,32 @@ export default {
       this.verifyResult = new Array(len)
       this.verifyResult.fill(0)
     },
+    // 初始化验证 is_login, is_copy, limit_ip
+    verifyInit(rule) {
+      if (rule.is_login) {
+        // 如果需要登录
+        if (!this.$store.getters.logined) {
+          this.$message({
+            message: '本问卷要求登录，请先到登录页面登录！',
+            type: 'warning',
+          })
+          setTimeout(() => {
+            this.$router.push({
+              path: '/login',
+            })
+          }, 1000)
+        }
+        username = this.$store.getters.user && this.$store.getters.user.nickname
+      }
+    },
     // 获取问卷信息
     getSurvey(id) {
       surveyModel.getSurvey(id).then(res => {
         if (res) {
           this.surveyData = res
-          this.surveyId = res.id
+          surveyId = res.id
           this.copySurvey(res.detail)
+          this.verifyInit(res.detail_rule)
         } else {
           this.$message({
             message: '未获取到对应的问卷，将返回主页',
@@ -251,22 +271,22 @@ export default {
         })
         return
       }
-      console.log(this.result)
-      // postEmitSurvey(this.surveyId, this.result)
-      //   .then(res => {
-      //     if (res.status === 0) {
-      //       this.$message({
-      //         message: '恭喜你提交问卷成功',
-      //         type: 'success',
-      //       })
-      //       this.$router.push({
-      //         path: '/succeed',
-      //       })
-      //     }
-      //   })
-      //   .catch(err => {
-      //     console.log(err)
-      //   })
+      surveyModel
+        .fillSurvey(surveyId, username, this.result)
+        .then(res => {
+          if (res.code === 17) {
+            this.$message({
+              message: '恭喜你提交问卷成功',
+              type: 'success',
+            })
+            this.$router.push({
+              path: '/succeed',
+            })
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     // 划屏操作
     scrollView(i) {
@@ -312,7 +332,11 @@ export default {
   width: 80%;
   background-color: #fff;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-
+  @include respond-to(lg) {
+    margin: 10px auto;
+    width: 100%;
+    padding: 20px;
+  }
   .main-header {
     display: flex;
     flex-direction: column;
