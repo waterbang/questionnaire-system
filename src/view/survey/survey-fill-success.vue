@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="content-text">问卷提交成功，感谢参与!</div>
-    <el-button @click="backRoule">返回上一级</el-button>
+    <el-button @click="backRoule">返回问卷调查系统</el-button>
   </div>
 </template>
 
@@ -9,7 +9,9 @@
 export default {
   methods: {
     backRoule() {
-      this.$router.go(-1)
+      this.$router.push({
+        path: '/about',
+      })
     },
   },
 }

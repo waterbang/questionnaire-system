@@ -89,7 +89,9 @@ export default {
   background-size: 100% 100%;
   background-position: center center;
   overflow: auto;
-
+  @include respond-to(lg) {
+    background: url('../../assets/image/login/login-bg-iphone.jpg');
+  }
   .team-name {
     position: fixed;
     left: 100px;
@@ -104,7 +106,10 @@ export default {
     top: 50%;
     transform: translate(-50%, -50%);
     width: 445px;
-
+    @include respond-to(lg) {
+      left: 50%;
+      width: 90%;
+    }
     .title {
       height: 37px;
       font-size: 30px;
@@ -116,6 +121,10 @@ export default {
         box-sizing: border-box;
         text-align: left;
         color: #ffffff;
+        @include respond-to(lg) {
+          padding-left: 0;
+          text-align: center;
+        }
       }
     }
 

@@ -1,12 +1,12 @@
 <template>
   <div class="survey-card">
     <el-row :gutter="20">
-      <el-col :span="6">
+      <el-col :span="span">
         <el-card class="new-project">
           <el-button @click="onCreateProject" type="primary" icon="el-icon-plus">新建项目</el-button>
         </el-card>
       </el-col>
-      <el-col :span="6" v-for="(item, index) in survey" :key="index.id">
+      <el-col :span="span" v-for="(item, index) in survey" :key="index.id">
         <suervey-item :survey="item" :index="index" @deleteItem="deleteItem"></suervey-item>
       </el-col>
     </el-row>
@@ -17,10 +17,12 @@
 import suerveyItem from './suerveyItem/suerveyItem'
 import surveyModel from '@/model/survey'
 
+let resizeFlag = null
 export default {
   data() {
     return {
       survey: {},
+      span: 6,
     }
   },
   methods: {
@@ -38,9 +40,32 @@ export default {
     deleteItem(e) {
       this.survey.splice(e, 1)
     },
+    // 挂载监听窗口方法
+    _onresize() {
+      window.onresize = () => {
+        if (resizeFlag) {
+          clearTimeout(resizeFlag)
+        }
+        resizeFlag = setTimeout(() => {
+          this.setCardSize(document.body.clientWidth)
+          resizeFlag = null
+        }, 1000)
+      }
+    },
+    setCardSize(clientWidth) {
+      if (clientWidth < 1000 && clientWidth > 800) {
+        this.span = 12
+      } else if (clientWidth < 800) {
+        this.span = 24
+      } else {
+        this.span = 6
+      }
+    },
   },
   mounted() {
     this._getSurveyList()
+    this._onresize() // 监听窗口高度
+    this.setCardSize(document.body.clientWidth) // 初始化窗口高度
   },
   components: {
     suerveyItem,
