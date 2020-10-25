@@ -17,6 +17,7 @@
                 placeholder="请输入您的问卷标题"
                 @change="showHeader(true)"
               />
+              <i class="el-icon-set-up" @click="drawer = true"></i>
             </div>
             <div class="header-desc">
               <div @click="showDesc(false)">
@@ -158,6 +159,8 @@
       </el-container>
       <!--  候选题型 -->
       <topic @cloneData="cloneData"></topic>
+      <!-- 问卷规则抽屉 -->
+      <ruleDrawer :drawer="drawer" :rule="surveyData.detail_rule" @setDrawer="setRule"></ruleDrawer>
     </el-container>
   </div>
 </template>
@@ -168,6 +171,7 @@ import vuedraggable from 'vuedraggable'
 import surveyModel from '../../model/survey'
 import singleMultiple from './singleOrMultiple/singleOrMultiple'
 import topic from './topic/topic'
+import ruleDrawer from './rule-drawer/rule-drawer'
 import { _loading, DeepClone } from '../../lin/util/common'
 
 export default {
@@ -193,7 +197,13 @@ export default {
           },
         ],
         footer_desc: '您已完成本次问卷，感谢您的帮助与支持',
+        detail_rule: {
+          is_login: false,
+          is_copy: true,
+          limit_ip: 1,
+        },
       },
+      drawer: false, // 是否打开问卷规则抽屉
       editHeader: true, // 是否点击到
       showSub: true, // 是否点击到subQuestions
       surStatus: false, // 是否能修改
@@ -279,7 +289,7 @@ export default {
     },
     // 创建问卷
     createData() {
-      console.log(this.surveyData)
+      // console.log(this.surveyData)
       surveyModel
         .createSurvey(this.surveyData)
         .then(res => {
@@ -318,6 +328,13 @@ export default {
           console.log(err)
         })
     },
+    // 设置问卷规则
+    setRule(rule) {
+      console.log(rule)
+      this.drawer = false
+      this.surveyData.detail_rule = rule
+    },
+    // 修改的时候拉取信息
     editSuervey(id) {
       // 导入编辑数据
       _loading(this, '获取问卷信息')
@@ -346,7 +363,7 @@ export default {
       this.isEdit = true // 标记为创建
     }
   },
-  components: { vuedraggable, singleMultiple, topic },
+  components: { vuedraggable, singleMultiple, topic, ruleDrawer },
 }
 </script>
 
@@ -370,6 +387,11 @@ export default {
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      position: relative;
+      .el-icon-set-up {
+        position: absolute;
+        right: 2px;
+      }
     }
     .header-desc {
       margin-top: 10px;
