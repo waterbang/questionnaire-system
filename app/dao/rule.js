@@ -16,6 +16,19 @@ class RuleDao {
     }
     return rule;
   }
+  async getUpRule (id) {
+    const rule = await Rule.findOne({
+      where: {
+        survey_id: id
+      }
+    });
+    if (!rule) {
+      throw new NotFound({
+        code: 10401
+      });
+    }
+    return rule;
+  }
 }
 
 export { RuleDao };

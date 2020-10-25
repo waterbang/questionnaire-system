@@ -68,9 +68,9 @@ class SurveyDao {
       await sy.save({ transaction });
       const ru = new Rule();
       ru.survey_id = sy.id;
-      ru.is_copy = v.get('body.rule.is_copy') || false;
-      ru.is_login = v.get('body.rule.is_login') || false;
-      ru.limit_ip = v.get('body.rule.limit_ip') || 0;
+      ru.is_copy = v.get('body.detail_rule.is_copy') || false;
+      ru.is_login = v.get('body.detail_rule.is_login') || false;
+      ru.limit_ip = v.get('body.detail_rule.limit_ip') || 1;
       await ru.save({ transaction });
 
       await transaction.commit();
@@ -80,24 +80,25 @@ class SurveyDao {
   }
 
   async updateSurvey (v, id) {
-    await this.validatorSurvey(id);
     let transaction;
     try {
       transaction = await sequelize.transaction();
-      const sy = new Survey();
+      const sy = await this.validatorSurvey(id);
       sy.title = v.get('body.title');
       sy.header_desc = v.get('body.header_desc');
       sy.footer_desc = v.get('body.footer_desc');
       sy.detail = v.get('body.detail');
       await sy.save({ transaction });
-      const ru = new Rule();
-      ru.survey_id = sy.id;
-      ru.is_copy = v.get('body.rule.is_copy') || false;
-      ru.is_login = v.get('body.rule.is_login') || false;
-      ru.limit_ip = v.get('body.rule.limit_ip') || 0;
+
+      const ru = await ruleDao.getUpRule(id);
+      ru.is_copy = v.get('body.detail_rule.is_copy');
+      ru.is_login = v.get('body.detail_rule.is_login');
+      ru.limit_ip = v.get('body.detail_rule.limit_ip');
       await ru.save({ transaction });
+
       await transaction.commit();
     } catch (err) {
+      console.log(err)
       if (transaction) await transaction.rollback();
     }
   }

@@ -10,7 +10,7 @@ class SurveyRule {
   validator (fills, rule, username, ip) {
     if (fills.length === 0) return true;
     if (rule.is_login) { // 如果需要登录
-      if (isNaN(username)) {
+      if (!username) {
         throw new FillNeetLogin();
       }
     }
