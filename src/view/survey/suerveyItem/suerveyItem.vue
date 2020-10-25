@@ -22,6 +22,7 @@
               <i class="el-icon-more el-dropdown-link"></i>
               <el-dropdown-menu slot="dropdown" class="el-icon-arrow-down">
                 <el-dropdown-item @click.native="deleteItem(survey.id)">删除</el-dropdown-item>
+                <el-dropdown-item @click.native="copySurvey" :disabled="is_copy">复制问卷</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -65,6 +66,9 @@ export default {
     tagColor() {
       // 给个颜色
       return this.survey.status === 1 ? 'warning' : 'success'
+    },
+    is_copy() {
+      return !this.survey.rule.is_copy
     },
   },
   data() {
@@ -131,6 +135,19 @@ export default {
             title: '发生错误',
             message: res.message,
           })
+        }
+      })
+    },
+    copySurvey() {
+      this.survey.title = `${this.survey.title}(副本)`
+      surveyModel.createSurvey(this.survey).then(res => {
+        if (res.code === 12) {
+          this.$notify({
+            title: '复制成功',
+            message: '恭喜你复制问卷成功',
+            type: 'success',
+          })
+          this.$emit('_getSurveyList')
         }
       })
     },

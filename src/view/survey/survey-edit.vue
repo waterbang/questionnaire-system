@@ -338,7 +338,7 @@ export default {
   },
   mounted() {
     const { id } = this.$route.params
-    this.eventBus.$emit('clearTap')
+    this.eventBus.$emit('clearTap') // 清除标题
     if (id) {
       this.isEdit = false // 标记为修改
       this.editSuervey(id) // 如果传递id就是修改

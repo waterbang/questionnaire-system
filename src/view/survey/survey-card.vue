@@ -7,7 +7,12 @@
         </el-card>
       </el-col>
       <el-col :span="span" v-for="(item, index) in survey" :key="index.id">
-        <suervey-item :survey="item" :index="index" @deleteItem="deleteItem"></suervey-item>
+        <suervey-item
+          :survey="item"
+          :index="index"
+          @deleteItem="deleteItem"
+          @_getSurveyList="_getSurveyList"
+        ></suervey-item>
       </el-col>
     </el-row>
   </div>

@@ -318,12 +318,12 @@ export default {
 }
 
 .cut-off {
-  background-color: rgb(58, 115, 170);
+  background-color: $theme;
   border-top: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 .choice-color {
-  color: #409eff;
+  color: $theme;
 }
 
 .main {
