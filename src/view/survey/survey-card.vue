@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import suerveyItem from './suerveyItem/suerveyItem'
+import suerveyItem from './suervey-item/suervey-item'
 import surveyModel from '@/model/survey'
 
 let resizeFlag = null

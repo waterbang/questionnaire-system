@@ -45,7 +45,7 @@
   </div>
 </template>
 <script>
-import WDrawer from './w_drawer'
+import WDrawer from './w-drawer'
 
 export default {
   inheritAttrs: false,

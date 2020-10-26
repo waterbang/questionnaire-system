@@ -32,5 +32,4 @@ deepTravel(stageConfig, viewConfig => {
   }
   homeRouter.push(viewRouter)
 })
-
 export default homeRouter

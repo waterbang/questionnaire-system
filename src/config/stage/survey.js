@@ -34,6 +34,15 @@ const surveyRouter = {
       inNav: false,
       icon: 'iconfont icon-gengduo',
     },
+    {
+      route: '/survey/gatherInfo/:id',
+      title: '问卷统计',
+      type: 'view',
+      name: 'GatherInfo',
+      inNav: false,
+      filePath: 'view/survey/gather-info/gather-info.vue',
+      icon: 'iconfont icon-jiemianicon-',
+    },
   ],
 }
 

@@ -169,7 +169,7 @@
 import vuedraggable from 'vuedraggable'
 
 import surveyModel from '../../model/survey'
-import singleMultiple from './singleOrMultiple/singleOrMultiple'
+import singleMultiple from './single-or-multiple/single-or-multiple'
 import topic from './topic/topic'
 import ruleDrawer from './rule-drawer/rule-drawer'
 import { _loading, DeepClone } from '../../lin/util/common'

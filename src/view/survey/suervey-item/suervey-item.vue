@@ -17,7 +17,7 @@
           <div class="Touch" v-show="!this.isShow">
             <i class="el-icon-edit" @click="editSuervey">修改</i>
             <i class="el-icon-s-promotion" @click="releaseTheQue">发布</i>
-            <i class="el-icon-s-marketing">数据</i>
+            <i class="el-icon-s-marketing" @click="gatherInfo">数据</i>
             <el-dropdown trigger="click" placement="bottom" size="mini">
               <i class="el-icon-more el-dropdown-link"></i>
               <el-dropdown-menu slot="dropdown" class="el-icon-arrow-down">
@@ -80,6 +80,19 @@ export default {
     onMouseover(flag) {
       // 显示与隐藏
       this.isShow = flag
+    },
+    // 前往调查统计
+    gatherInfo() {
+      if (this.survey.status !== window.SURVEYPULISH) {
+        this.$message({
+          message: '没有发布的问卷无法查看统计数据⛱️',
+          type: 'warning',
+        })
+        return
+      }
+      this.$router.push({
+        path: `/survey/gatherInfo/${this.survey.id}`,
+      })
     },
     // 发布问卷
     releaseTheQue() {
