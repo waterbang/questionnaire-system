@@ -41,11 +41,18 @@ class Survey {
     return res
   }
 
-  async fillSurvey(id, username, detail) {
+  async fillSurvey(id, username, quiz_time, detail) {
     const res = await post(`/v1/survey/fill/${id}`, {
       username,
+      quiz_time,
       detail,
     })
+    return res
+  }
+
+  // 获取统计
+  async gatherInfo(id) {
+    const res = await get(`/v1/survey/gather/${id}`)
     return res
   }
 }

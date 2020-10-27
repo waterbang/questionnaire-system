@@ -108,7 +108,7 @@
       </el-main>
       <el-footer class="main-footer">
         <div class="main-footer-text">{{ surveyData.footer_desc }}</div>
-        <el-button type="primary" @click="emitSurvey">提交</el-button>
+        <el-button type="warning" @click="emitSurvey">提交</el-button>
       </el-footer>
     </el-container>
   </div>
@@ -117,9 +117,11 @@
 <script>
 import surveyModel from '../../model/survey'
 import { DeepClone } from '../../lin/util/common'
+import { getStartEndSecond } from '../../lin/util/date'
 
 let surveyId = 1
 let username = null
+let startTime = new Date()
 export default {
   name: 'fillsurvey',
   data() {
@@ -209,7 +211,8 @@ export default {
           this.surveyData = res
           surveyId = res.id
           this.copySurvey(res.detail)
-          this.verifyInit(res.detail_rule)
+          this.verifyInit(res.detail_rule) // 初始化验证规则
+          startTime = new Date() // 初始化开始答题时间
         } else {
           this.$message({
             message: '未获取到对应的问卷，将返回主页',
@@ -271,8 +274,10 @@ export default {
         })
         return
       }
+      const quiz_time = getStartEndSecond(new Date().getTime() - startTime.getTime()) // 获取用户答题的时间
+      console.log(quiz_time)
       surveyModel
-        .fillSurvey(surveyId, username, this.result)
+        .fillSurvey(surveyId, username, quiz_time, this.result)
         .then(res => {
           if (res.code === 17) {
             this.$message({
