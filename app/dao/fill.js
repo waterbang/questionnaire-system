@@ -25,10 +25,11 @@ class FillDao {
     return fill;
   }
 
-  async createFill (id, detail) {
+  async createFill (id, quiz_time, detail) {
     const fill = new FillModel();
     fill.survey_id = id;
     fill.detail = detail;
+    fill.quiz_time = quiz_time;
     return fill;
   }
 
@@ -36,6 +37,7 @@ class FillDao {
     const id = v.get('path.id');
     const detail = v.get('body.detail');
     const username = v.get('body.username');
+    const quiz_time = v.get('body.quiz_time');
     const rule = await ruleDao.getRule(id);
     const fillRules = await fillRuleDao.getFillRules(id);
     await new SurveyRuleServer(fillRules, rule, username, ip);
@@ -45,7 +47,7 @@ class FillDao {
       const fillRule = await fillRuleDao.createFillRule(id, ip, username);
       await fillRule.save({ transaction });
 
-      const fill = await this.createFill(id, detail);
+      const fill = await this.createFill(id, quiz_time, detail);
       await fill.save({ transaction });
       await transaction.commit();
     } catch (err) {

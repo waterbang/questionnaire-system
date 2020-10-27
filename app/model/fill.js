@@ -8,7 +8,8 @@ class Fill extends Model {
     const origin = {
       id: this.id,
       survey_id: this.survey_id,
-      detail: this.detail
+      detail: this.detail,
+      quiz_time: this.quiz_time
     };
     return origin;
   }
@@ -30,6 +31,11 @@ Fill.init(
       type: Sequelize.JSON,
       allowNull: false,
       comment: '收集的详情'
+    },
+    quiz_time: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      comment: '答题时间（秒）'
     }
   },
   merge(

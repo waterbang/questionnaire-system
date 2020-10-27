@@ -121,4 +121,18 @@ surveyApi.linDelete(
     });
   });
 
+// 获取统计信息
+surveyApi.linGet(
+  'gatherInfo',
+  '/gather/:id',
+  surveyApi.permission('查看问卷统计信息'),
+  loginRequired,
+  async ctx => {
+    const v = await new PositiveIdValidator().validate(ctx);
+    const id = v.get('path.id');
+    const fills = await fillDao.getFills(id);
+    ctx.json(fills);
+  }
+)
+
 module.exports = { surveyApi, [disableLoading]: false };
