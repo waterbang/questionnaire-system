@@ -9,7 +9,8 @@ class Fill extends Model {
       id: this.id,
       survey_id: this.survey_id,
       detail: this.detail,
-      quiz_time: this.quiz_time
+      quiz_time: this.quiz_time,
+      create_time: this.create_time
     };
     return origin;
   }
@@ -36,6 +37,9 @@ Fill.init(
       type: Sequelize.INTEGER,
       allowNull: false,
       comment: '答题时间（秒）'
+    },
+    create_time: {
+      type: Sequelize.DATE
     }
   },
   merge(
