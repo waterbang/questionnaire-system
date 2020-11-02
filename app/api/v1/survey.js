@@ -133,7 +133,7 @@ surveyApi.linGet(
     const fills = await fillDao.getFills(id);
     ctx.json(fills);
   }
-)
+);
 
 // ---------获取数据统计信息
 // 获取上上个月，上个月，下个月的问卷数量
@@ -144,6 +144,6 @@ surveyApi.linGet(
   loginRequired,
   async ctx => {
   }
-)
+);
 
 module.exports = { surveyApi, [disableLoading]: false };
