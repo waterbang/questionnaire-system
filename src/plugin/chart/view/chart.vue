@@ -61,34 +61,7 @@ export default {
     LineCharts,
   },
   data() {
-    return {
-      list1: [
-        { type: 1, value: 100 },
-        { type: 2, value: 120 },
-        { type: 3, value: 230 },
-        { type: 4, value: 150 },
-        { type: 5, value: 280 },
-        { type: 6, value: 190 },
-        { type: 7, value: 130 },
-        { type: 8, value: 150 },
-        { type: 9, value: 160 },
-        { type: 10, value: 140 },
-        { type: 11, value: 190 },
-      ],
-      list2: [
-        { type: 1, value: 80 },
-        { type: 2, value: 120 },
-        { type: 3, value: 210 },
-        { type: 4, value: 120 },
-        { type: 5, value: 130 },
-        { type: 6, value: 190 },
-        { type: 7, value: 130 },
-        { type: 8, value: 150 },
-        { type: 9, value: 160 },
-        { type: 10, value: 140 },
-        { type: 11, value: 190 },
-      ],
-    }
+    return {}
   },
 }
 </script>

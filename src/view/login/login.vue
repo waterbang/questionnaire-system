@@ -55,7 +55,6 @@ export default {
         this.$message.success('登录成功')
       } catch (e) {
         this.loading = false
-        console.log(e)
       }
     },
     async getInformation() {

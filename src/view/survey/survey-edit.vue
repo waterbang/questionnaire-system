@@ -200,7 +200,7 @@ export default {
         detail_rule: {
           is_login: false,
           is_copy: true,
-          limit_ip: 1,
+          limit_ip: 10,
         },
       },
       drawer: false, // 是否打开问卷规则抽屉

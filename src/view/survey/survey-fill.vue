@@ -202,6 +202,7 @@ export default {
           }, 1000)
         }
         username = this.$store.getters.user && this.$store.getters.user.nickname
+        console.log(this.$store.getters.user, this.$store.getters.user.nickname)
       }
     },
     // 获取问卷信息
@@ -275,7 +276,7 @@ export default {
         return
       }
       const quiz_time = getStartEndSecond(new Date().getTime() - startTime.getTime()) // 获取用户答题的时间
-      console.log(quiz_time)
+      console.log(quiz_time, username)
       surveyModel
         .fillSurvey(surveyId, username, quiz_time, this.result)
         .then(res => {
