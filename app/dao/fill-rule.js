@@ -19,7 +19,7 @@ class FillRuleDao {
     return fillRule;
   }
 
-  async createFillRule (id, ip, username = '不用登录') {
+  async createFillRule (id, ip, username) {
     const fillRule = new FillRuleModel();
     fillRule.ip = ip;
     fillRule.survey_id = id;

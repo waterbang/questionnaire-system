@@ -34,7 +34,7 @@ FillRule.init(
       defaultValue: 0
     },
     username: {
-      type: Sequelize.STRING(20),
+      type: Sequelize.STRING(64),
       allowNull: true,
       defaultValue: null
     }
