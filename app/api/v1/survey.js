@@ -135,4 +135,15 @@ surveyApi.linGet(
   }
 )
 
+// ---------获取数据统计信息
+// 获取上上个月，上个月，下个月的问卷数量
+surveyApi.linGet(
+  'getAnalyseMonth',
+  '/analyse/month',
+  surveyApi.permission('查看数据分析'),
+  loginRequired,
+  async ctx => {
+  }
+)
+
 module.exports = { surveyApi, [disableLoading]: false };
