@@ -2,12 +2,12 @@
   <div class="container">
     <div class="left">
       <div class="l-side">
-        <div class="title">6月新增订单</div>
+        <div class="title">11月新增问卷</div>
         <div class="num-box">
           <div class="shape"></div>
-          <div class="num">1274</div>
+          <div class="num">14</div>
           <i class="iconfont icon-jiantou up"></i>
-          <div class="percent">-72%</div>
+          <div class="percent">-64%</div>
         </div>
       </div>
       <div class="r-side">

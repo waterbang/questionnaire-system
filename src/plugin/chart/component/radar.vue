@@ -11,23 +11,23 @@ export default {
   data() {
     return {
       data: [
-        { type: '品牌', mark: '东区', value: 80 },
-        { type: '外观', mark: '东区', value: 20 },
-        { type: '质量', mark: '东区', value: 60 },
-        { type: '实用', mark: '东区', value: 40 },
-        { type: '设计', mark: '东区', value: 70 },
-        { type: '品牌', mark: '北区', value: 70 },
-        { type: '外观', mark: '北区', value: 50 },
-        { type: '质量', mark: '北区', value: 90 },
-        { type: '实用', mark: '北区', value: 80 },
-        { type: '设计', mark: '北区', value: 20 },
+        { type: '今天晚上吃什么', mark: '技术部', value: 80 },
+        { type: '公司的团建', mark: '技术部', value: 20 },
+        { type: '对黄柚子抽奖小程序的测试看法', mark: '技术部', value: 60 },
+        { type: '销售产品心得统计', mark: '技术部', value: 40 },
+        { type: '网络安全防范问卷', mark: '技术部', value: 70 },
+        { type: '今天晚上吃什么', mark: '销售部', value: 70 },
+        { type: '公司的团建', mark: '销售部', value: 50 },
+        { type: '对黄柚子抽奖小程序的测试看法', mark: '销售部', value: 90 },
+        { type: '销售产品心得统计', mark: '销售部', value: 80 },
+        { type: '网络安全防范问卷', mark: '销售部', value: 20 },
       ],
     }
   },
   mounted() {
     new Radar('Radar', {
       title: {
-        text: '东、北区对比分析',
+        text: '技术部和销售部问卷填写数量',
         visible: true,
       },
       data: this.data,

@@ -2,10 +2,10 @@
   <div class="container">
     <div class="left">
       <div class="l-side">
-        <div class="title">7月新增订单</div>
+        <div class="title">10月新增问卷</div>
         <div class="num-box">
           <div class="shape"></div>
-          <div class="num">3519</div>
+          <div class="num">39</div>
           <i class="iconfont icon-jiantou up"></i>
           <div class="percent">+19%</div>
         </div>

@@ -12,28 +12,28 @@ export default {
     return {
       data: [
         {
-          type: '服装',
-          value: 2700,
+          type: '公司统计',
+          value: 270,
         },
         {
-          type: '游戏',
-          value: 2500,
+          type: '员工统计',
+          value: 250,
         },
         {
-          type: '数码',
-          value: 1898,
+          type: '战略统计',
+          value: 188,
         },
         {
-          type: '食品',
-          value: 2376,
+          type: '技术产品统计',
+          value: 236,
         },
         {
-          type: '书籍',
-          value: 1760,
+          type: '技术部统计',
+          value: 170,
         },
         {
-          type: '其他',
-          value: 1500,
+          type: '销售部统计',
+          value: 150,
         },
       ],
     }
@@ -41,7 +41,7 @@ export default {
   mounted() {
     new Rose('rose', {
       title: {
-        text: '品类分析',
+        text: '问卷分析',
         visible: true,
       },
       data: this.data,
