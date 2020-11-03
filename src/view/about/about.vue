@@ -49,7 +49,7 @@
           <div class="quantity-detail-box">
             <div class="quantity-title">总访问量</div>
             <div class="quantity-border-line"></div>
-            <div class="quantity">11,590</div>
+            <div class="quantity">90</div>
           </div>
         </div>
         <div class="quantity-icon"><img src="../../assets/image/about/icon.png" alt="" /></div>
@@ -59,7 +59,7 @@
           <div class="quantity-detail-box">
             <div class="quantity-title">总用户数</div>
             <div class="quantity-border-line"></div>
-            <div class="quantity">51,862</div>
+            <div class="quantity">2</div>
           </div>
         </div>
         <div class="quantity-icon"><img src="../../assets/image/about/icon.png" alt="" /></div>
@@ -67,9 +67,9 @@
       <div class="quantity-item">
         <div class="quantity-detail">
           <div class="quantity-detail-box">
-            <div class="quantity-title">新增访问量 (月)</div>
+            <div class="quantity-title">新增问卷量 (月)</div>
             <div class="quantity-border-line"></div>
-            <div class="quantity">1,862</div>
+            <div class="quantity">12</div>
           </div>
         </div>
         <div class="quantity-icon"><img src="../../assets/image/about/icon.png" alt="" /></div>
@@ -79,7 +79,7 @@
           <div class="quantity-detail-box">
             <div class="quantity-title">新增用户数</div>
             <div class="quantity-border-line"></div>
-            <div class="quantity">1,323</div>
+            <div class="quantity">1</div>
           </div>
         </div>
         <div class="quantity-icon"><img src="../../assets/image/about/icon.png" alt="" /></div>
@@ -91,16 +91,16 @@
         <img src="../../assets/image/about/avatar.png" class="personal-avatar" />
         <div class="personal-influence">
           <div class="personal-influence-item">
-            <div class="personal-influence-num color1">5411</div>
-            <div class="personal-influece-label">总访问量</div>
+            <div class="personal-influence-num color1">11</div>
+            <div class="personal-influece-label">总答卷量</div>
           </div>
           <div class="personal-influence-item">
-            <div class="personal-influence-num color2">913</div>
-            <div class="personal-influece-label">粉丝</div>
+            <div class="personal-influence-num color2">0</div>
+            <div class="personal-influece-label">本月答卷量</div>
           </div>
           <div class="personal-influence-item">
-            <div class="personal-influence-num color3">72</div>
-            <div class="personal-influece-label">作品</div>
+            <div class="personal-influence-num color3">2</div>
+            <div class="personal-influece-label">问卷量</div>
           </div>
         </div>
         <el-tabs v-model="activeName" class="personal-tabs">

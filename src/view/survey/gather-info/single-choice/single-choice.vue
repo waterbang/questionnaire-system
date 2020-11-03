@@ -69,9 +69,6 @@ export default {
     },
   },
   mounted() {
-    console.log('sub', this.baseData)
-    console.log('sub', this.infoData)
-    console.log('subbb', this.pieData)
     this.mountedPie(this.pieData)
   },
 }

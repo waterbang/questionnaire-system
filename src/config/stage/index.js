@@ -2,7 +2,7 @@ import Utils from '@/lin/util/util'
 import adminConfig from './admin'
 import bookConfig from './book' // 引入图书管理路由文件
 import surveyConfig from './survey'
-import pluginsConfig from './plugin'
+// import pluginsConfig from './plugin'
 
 // eslint-disable-next-line import/no-mutable-exports
 let homeRouter = [
@@ -50,7 +50,8 @@ let homeRouter = [
   adminConfig,
 ]
 
-const plugins = [...pluginsConfig]
+const plugins = []
+// const plugins = [...pluginsConfig]
 
 // 筛除已经被添加的插件
 function filterPlugin(data) {
