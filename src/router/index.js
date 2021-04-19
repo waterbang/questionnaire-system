@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import routes from './route'
-import store from '../store'
 import appConfig from '@/config/index'
 import Util from '@/lin/util/util'
+import Vue from 'vue'
+import Router from 'vue-router'
+import store from '../store'
+import routes from './route'
 
 Vue.use(Router)
 

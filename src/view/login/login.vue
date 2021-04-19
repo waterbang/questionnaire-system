@@ -1,24 +1,23 @@
 <template>
   <div class="login">
-    <div class="team-name hidden-sm-and-down">
-      <img src="@/assets/image/login/team-name.png" alt="logo" />
-    </div>
+    <div class="tiger" ref="tiger"></div>
+    <div class="rabbit" ref="rabbit"></div>
     <div class="form-box" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0)">
       <div class="title">
         <h1 title="Lin">玉米问卷调查系统</h1>
       </div>
-      <form class="login-form" autocomplete="off" @submit.prevent="throttleLogin()">
-        <div class="form-item nickname">
+      <form class="login-form" autocomplete="off">
+        <div class="form-item">
           <span class="icon account-icon"></span>
-          <input type="text" v-model="form.username" autocomplete="off" placeholder="请填写用户名" />
+          <el-input type="text" v-model="form.username" autocomplete="off" placeholder="请填写用户名" />
         </div>
-        <div class="form-item password">
+        <div class="form-item">
           <span class="icon secret-icon"></span>
-          <input type="password" v-model="form.password" autocomplete="off" placeholder="请填写用户登录密码" />
+          <el-input type="password" v-model="form.password" autocomplete="off" placeholder="请填写用户登录密码" />
         </div>
         <div class="button-submit">
-          <button class="submit-btn black" type="submit">登录</button>
-          <button class="submit-btn regist">注册</button>
+          <button class="submit-btn black" @click="throttleLogin">登录</button>
+          <button class="submit-btn regist" @click="register">注册</button>
         </div>
       </form>
     </div>
@@ -27,8 +26,11 @@
 
 <script>
 import { mapActions, mapMutations } from 'vuex'
+import lottie from 'lottie-web'
 import User from '@/lin/model/user'
 import Utils from '@/lin/util/util'
+import Rabbit from '@/assets/lottie/presto-rabbit.json'
+import Tiger from '@/assets/lottie/tigerhi.json'
 
 export default {
   name: 'login',
@@ -38,8 +40,8 @@ export default {
       wait: 2000, // 2000ms之内不能重复发起请求
       throttleLogin: null, // 节流登录
       form: {
-        username: 'root',
-        password: '123456',
+        username: '',
+        password: '',
       },
     }
   },
@@ -71,6 +73,32 @@ export default {
     ...mapMutations({
       setUserPermissions: 'SET_USER_PERMISSIONS',
     }),
+    register() {
+      this.$router.push({ name: 'register' }).catch(e => {
+        console.log(e)
+        this.$router.push({ name: 'register' })
+      })
+    },
+    initLottie() {
+      lottie.loadAnimation({
+        container: this.$refs.tiger, // 包含动画的dom元素
+        renderer: 'svg', // 渲染出来的是什么格式
+        loop: true, // 循环播放
+        autoplay: true, // 自动播放
+        animationData: Tiger, // 动画json的路径
+      })
+      lottie.loadAnimation({
+        container: this.$refs.rabbit, // 包含动画的dom元素
+        renderer: 'svg', // 渲染出来的是什么格式
+        loop: true, // 循环播放
+        autoplay: true, // 自动播放
+        animationData: Rabbit, // 动画json的路径
+      })
+      lottie.play()
+    },
+  },
+  mounted() {
+    this.initLottie()
   },
   created() {
     // 节流登录
@@ -82,29 +110,35 @@ export default {
 
 <style lang="scss">
 .login {
-  width: 100%;
-  height: 100%;
-  background: url('../../assets/image/login/login-bg.jpg');
-  background-size: 100% 100%;
-  background-position: center center;
-  overflow: auto;
-  @include respond-to(lg) {
-    background: url('../../assets/image/login/login-bg-iphone.jpg');
-  }
-  .team-name {
+  .tiger {
     position: fixed;
-    left: 100px;
-    top: 50%;
-    width: 550px;
-    transform: translateY(-50%);
+    left: -10%;
+    top: 0;
+    @include respond-to(lg) {
+      display: none;
+    }
   }
-
+  .rabbit {
+    width: 200px;
+    height: 200px;
+    position: fixed;
+    left: 64%;
+    top: 4%;
+    @include respond-to(lg) {
+      left: 20%;
+      top: -10%;
+    }
+  }
   .form-box {
     position: fixed;
     left: 70%;
     top: 50%;
     transform: translate(-50%, -50%);
     width: 445px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    padding: 3rem;
+    background-color: #ffffff;
+    z-index: 1;
     @include respond-to(lg) {
       left: 50%;
       width: 90%;
@@ -119,7 +153,6 @@ export default {
         padding-left: 74px;
         box-sizing: border-box;
         text-align: left;
-        color: #ffffff;
         @include respond-to(lg) {
           padding-left: 0;
           text-align: center;
@@ -129,36 +162,13 @@ export default {
 
     .login-form {
       width: 100%;
-
       .form-item {
         width: 100%;
-        height: 40px;
         box-sizing: border-box;
         padding-bottom: 13px;
         margin-bottom: 34px;
-
-        input {
-          width: 100%;
-          height: 100%;
-          background: transparent;
-          color: #ffffff;
-          font-size: 14px;
-          box-sizing: border-box;
-          border-bottom: 1px solid #dae1ed;
-        }
       }
 
-      .form-item.nickname {
-        // background: url('../../assets/image/login/nickname.png') no-repeat;
-        background-size: 100% auto;
-        background-position: left bottom;
-      }
-
-      .form-item.password {
-        // background: url('../../assets/image/login/password.png') no-repeat;
-        background-size: 100% auto;
-        background-position: left bottom;
-      }
       .button-submit {
         display: flex;
         justify-content: space-around;
@@ -175,10 +185,10 @@ export default {
           cursor: pointer;
         }
         .black {
-          // background-color: #4d80e6;
+          background-color: #ea8850;
         }
         .regist {
-          // background-color: #008080;
+          background-color: #e5e5e5;
         }
       }
     }

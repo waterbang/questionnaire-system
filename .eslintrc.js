@@ -19,12 +19,12 @@ module.exports = {
     'no-restricted-syntax': 0,
     'no-restricted-syntax': 0,
     'linebreak-style': 0, // 换行警告
-    'max-len': 'off', // 代码最大长度
+    'import/order': 0, // 导入顺序警告
     'consistent-return': 'off',
     'no-prototype-builtins': 'off',
     'class-methods-use-this': 'off',
     semi: ['error', 'never'], // 无分号
-    'max-len': ['error', { code: 200 }],
+    'max-len': ['error', { code: 1000 }],
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
     'no-param-reassign': ['error', { props: false }],

@@ -14,6 +14,16 @@ const routes = [
     component: () => import('@/view/login/login'),
   },
   {
+    path: '/register',
+    name: 'register',
+    component: () => import('@/view/login/register'),
+  },
+  {
+    path: '/checkCode',
+    name: 'checkCode',
+    component: () => import('@/view/login/checkCode'),
+  },
+  {
     path: '/fillsurvey/:id',
     name: 'fillsurvey',
     component: () => import('@/view/survey/survey-fill.vue'),

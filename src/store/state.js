@@ -1,8 +1,8 @@
-import stageConfig from '@/config/stage' // 引入舞台配置
 import AppConfig from '@/config/index' // 引入项目配置
+import stageConfig from '@/config/stage' // 引入舞台配置
 
 export default {
-  logined: true, // 是否登录
+  logined: false, // 是否登录
   user: {}, // 当前用户
   sideBarLevel: AppConfig.sideBarLevel || 3,
   defaultRoute: AppConfig.defaultRoute || '/about',

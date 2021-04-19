@@ -32,7 +32,10 @@ export default {
   },
   data() {
     return {
-      tableColumn: [{ prop: 'title', label: '书名' }, { prop: 'author', label: '作者' }],
+      tableColumn: [
+        { prop: 'title', label: '书名' },
+        { prop: 'author', label: '作者' },
+      ],
       tableData: [],
       operate: [],
       showEdit: false,
@@ -65,7 +68,6 @@ export default {
       }
     },
     handleEdit(val) {
-      console.log('val', val)
       this.showEdit = true
       this.editBookID = val.row.id
     },
