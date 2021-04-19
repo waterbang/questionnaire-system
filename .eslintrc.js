@@ -19,6 +19,7 @@ module.exports = {
     'no-restricted-syntax': 0,
     'no-restricted-syntax': 0,
     'linebreak-style': 0, // 换行警告
+    'max-len': 'off', // 代码最大长度
     'consistent-return': 'off',
     'no-prototype-builtins': 'off',
     'class-methods-use-this': 'off',

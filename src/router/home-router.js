@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import stageConfig from '@/config/stage' // 引入舞台配置
 
 // 深度遍历配置树, 摘取叶子节点作为路由部分
@@ -22,7 +23,8 @@ deepTravel(stageConfig, viewConfig => {
   const viewRouter = {}
   viewRouter.path = viewConfig.route
   viewRouter.name = viewConfig.name
-  viewRouter.component = () => import(`@/${viewConfig.filePath}`)
+  // eslint-disable-next-line import/no-dynamic-require
+  viewRouter.component = resolve => require([`@/${viewConfig.filePath}`], resolve)
   viewRouter.meta = {
     title: viewConfig.title,
     icon: viewConfig.icon,
