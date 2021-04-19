@@ -3,20 +3,17 @@
     <div class="tiger" ref="tiger"></div>
     <div class="from">
       <h2>{{ title }}</h2>
-      <el-button type="primary" :loading="loading" @click="onRegister('form')">立即注册</el-button>
-      <el-button @click="onCallback">取消</el-button>
+      <el-button type="primary" :loading="loading" @click="goAbout">立即登录</el-button>
     </div>
-    <div class="rabbit" ref="rabbit"></div>
   </div>
 </template>
 
 <script>
 import lottie from 'lottie-web'
 import Tiger from '@/assets/lottie/tigerhi.json'
-import Rabbit from '@/assets/lottie/presto-rabbit.json'
 
 export default {
-  name: 'register',
+  name: 'checkCode',
   data() {
     return {
       loading: false, // 加载动画
@@ -24,8 +21,8 @@ export default {
     }
   },
   methods: {
-    onCallback() {
-      this.$router.push('/login')
+    goAbout() {
+      this.$router.push({ path: '/about' })
     },
     initLottie() {
       lottie.loadAnimation({
@@ -34,13 +31,6 @@ export default {
         loop: true, // 循环播放
         autoplay: true, // 自动播放
         animationData: Tiger, // 动画json的路径
-      })
-      lottie.loadAnimation({
-        container: this.$refs.rabbit, // 包含动画的dom元素
-        renderer: 'svg', // 渲染出来的是什么格式
-        loop: true, // 循环播放
-        autoplay: true, // 自动播放
-        animationData: Rabbit, // 动画json的路径
       })
       lottie.play()
     },
@@ -52,7 +42,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.register {
+.checkCode {
   .tiger {
     width: 300px;
     height: 300px;
@@ -63,21 +53,13 @@ export default {
     @include respond-to(lg) {
     }
   }
-  .rabbit {
-    height: 500px;
-    width: 500px;
-    position: fixed;
-    bottom: 0;
-    @include respond-to(lg) {
-      display: none;
-    }
-  }
   .from {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 445px;
+    height: 500px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     padding: 1rem;
     margin: 1rem;
