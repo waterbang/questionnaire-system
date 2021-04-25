@@ -2,7 +2,7 @@
 
 module.exports = {
   db: {
-    database: 'questionnaire',
+    database: 'questionaire',
     host: 'localhost',
     dialect: 'mysql',
     port: 3306,

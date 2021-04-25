@@ -1,12 +1,13 @@
 import { InfoCrudMixin } from 'lin-mizar';
-import { has, get, merge } from 'lodash';
-import { Sequelize, Model } from 'sequelize';
+import { get, has, merge } from 'lodash';
+import { Model, Sequelize } from 'sequelize';
 import sequelize from '../lib/db';
 
 class Survey extends Model {
   toJSON () {
     const origin = {
       id: this.id,
+      user_id: this.user_id,
       title: this.title,
       status: this.status,
       header_desc: this.header_desc,
@@ -30,6 +31,11 @@ Survey.init(
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
+    },
+    user_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      comment: '用户id'
     },
     title: {
       type: Sequelize.STRING(30),

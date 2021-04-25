@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   port: 5000,
-  siteDomain: 'http://localhost:5000',
+  siteDomain: 'https://maizeapi.waterbang.top',
   countDefault: 10,
   pageDefault: 0,
   apiDir: 'app/api',
@@ -15,6 +15,10 @@ module.exports = {
   refreshExp: 60 * 60 * 24 * 30,
   statusRelease: 2, // 发布
   statusEstablish: 1, // 创建
+  emailUser: 'water_bang@163.com', // 邮箱账号
+  emailPass: 'hsb145607145607', // 邮箱密码
+  emailHash: 'waterbang', // 邮箱Hash
+  emailExtime: 86400000, // 验证过期时间
   // 暂不启用插件
   pluginPath: {
     // // plugin name

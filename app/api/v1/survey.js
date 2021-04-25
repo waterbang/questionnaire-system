@@ -1,13 +1,13 @@
-import { LinRouter, NotFound, disableLoading } from 'lin-mizar';
-import { loginRequired } from '../../middleware/jwt';
-import { CreateOrUpdateSurveyValidator, UpdateSurveyStatusValidator, FillSurveyValidator } from '../../validator/survey';
-import { PaginateValidator, PositiveIdValidator } from '../../validator/common';
-import { logger } from '../../middleware/logger';
-import { getSafeParamId } from '../../lib/util';
-import { SurveyDao } from '../../dao/survey';
+import { disableLoading, LinRouter } from 'lin-mizar';
+import { statusEstablish, statusRelease } from '../../config/setting';
 import { FillDao } from '../../dao/fill';
-import { SurveyStatusReleased, SurveyNotRelease } from '../../lib/exception';
-import { statusRelease, statusEstablish } from '../../config/setting';
+import { SurveyDao } from '../../dao/survey';
+import { SurveyNotRelease, SurveyStatusReleased } from '../../lib/exception';
+import { getSafeParamId } from '../../lib/util';
+import { loginRequired } from '../../middleware/jwt';
+import { logger } from '../../middleware/logger';
+import { PaginateValidator, PositiveIdValidator } from '../../validator/common';
+import { CreateOrUpdateSurveyValidator, FillSurveyValidator, UpdateSurveyStatusValidator } from '../../validator/survey';
 
 console.log(disableLoading);
 
@@ -35,11 +35,6 @@ surveyApi.linGet(
   async ctx => {
     const v = await new PaginateValidator().validate(ctx);
     const { rows, total } = await surveyDto.getSurveys(v);
-    if (!rows || rows.length < 1) {
-      throw new NotFound({
-        code: 10260
-      });
-    }
     ctx.json({
       total: total,
       items: rows,
@@ -50,13 +45,17 @@ surveyApi.linGet(
 );
 
 // 创建问卷
-surveyApi.post('/', async ctx => {
-  const v = await new CreateOrUpdateSurveyValidator().validate(ctx);
-  await surveyDto.createSurvey(v);
-  ctx.success({
-    code: 12
+surveyApi.linPost(
+  'createSurvey',
+  '/',
+  loginRequired,
+  async ctx => {
+    const v = await new CreateOrUpdateSurveyValidator().validate(ctx);
+    await surveyDto.createSurvey(v, ctx);
+    ctx.success({
+      code: 12
+    });
   });
-});
 
 // 更新问卷
 surveyApi.put('/:id', async ctx => {

@@ -1,19 +1,19 @@
-import { LinRouter, getTokens } from 'lin-mizar';
-import {
-  RegisterValidator,
-  LoginValidator,
-  UpdateInfoValidator,
-  ChangePasswordValidator
-} from '../../validator/user';
-
+import { getTokens, LinRouter } from 'lin-mizar';
+import { FillDao } from '../../dao/fill';
+import { SurveyDao } from '../../dao/survey';
+import { UserDao } from '../../dao/user';
 import {
   adminRequired,
   loginRequired,
   refreshTokenRequiredWithUnifyException
 } from '../../middleware/jwt';
-import { UserIdentityModel } from '../../model/user';
 import { logger } from '../../middleware/logger';
-import { UserDao } from '../../dao/user';
+import { UserIdentityModel } from '../../model/user';
+import {
+  ChangePasswordValidator, LoginValidator, RegisterValidator,
+
+  UpdateInfoValidator
+} from '../../validator/user';
 
 const user = new LinRouter({
   prefix: '/cms/user',
@@ -23,13 +23,28 @@ const user = new LinRouter({
 });
 
 const userDao = new UserDao();
+const surveyDao = new SurveyDao();
+const fillDao = new FillDao();
+
+user.linPost(
+  'register',
+  '/userRegister',
+  user.permission('注册'),
+  async ctx => {
+    const v = await new RegisterValidator().validate(ctx);
+    await userDao.createUser(v);
+    ctx.success({
+      code: 11
+    });
+  }
+);
 
 user.linPost(
   'userRegister',
   '/register',
   user.permission('注册'),
   adminRequired,
-  logger('管理员新建了一个用户'),
+  logger('管理员新建了一个用户:{request.body.username}'),
   async ctx => {
     const v = await new RegisterValidator().validate(ctx);
     await userDao.createUser(v);
@@ -120,6 +135,19 @@ user.linGet(
   loginRequired,
   async ctx => {
     const info = await userDao.getInformation(ctx);
+    ctx.json(info);
+  }
+);
+
+user.linGet(
+  'getAbout',
+  '/getAbout',
+  loginRequired,
+  async ctx => {
+    const user = await userDao.getUserInfos(ctx);
+    const survey = await surveyDao.getSurveyInfos(ctx);
+    const fill = await fillDao.getFillInfos(ctx);
+    const info = Object.assign(user, survey, fill);
     ctx.json(info);
   }
 );

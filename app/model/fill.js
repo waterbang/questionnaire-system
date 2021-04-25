@@ -1,12 +1,13 @@
 import { InfoCrudMixin } from 'lin-mizar';
 import { merge } from 'lodash';
-import { Sequelize, Model } from 'sequelize';
+import { Model, Sequelize } from 'sequelize';
 import sequelize from '../lib/db';
 
 class Fill extends Model {
   toJSON () {
     const origin = {
       id: this.id,
+      user_id: this.user_id,
       survey_id: this.survey_id,
       detail: this.detail,
       quiz_time: this.quiz_time,
@@ -22,6 +23,11 @@ Fill.init(
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
+    },
+    user_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      comment: '用户id'
     },
     survey_id: {
       type: Sequelize.INTEGER,
@@ -50,7 +56,7 @@ Fill.init(
       indexes: [{
         name: 'fill_del',
         method: 'BTREE',
-        fields: ['survey_id']
+        fields: ['survey_id', 'user_id']
       }]
     },
     InfoCrudMixin.options

@@ -1,16 +1,34 @@
-import { RepeatException, generate, NotFound, Forbidden } from 'lin-mizar';
-import { UserModel, UserIdentityModel } from '../model/user';
-import { UserGroupModel } from '../model/user-group';
+import { Forbidden, generate, NotFound, RepeatException } from 'lin-mizar';
+import { has, set, uniq } from 'lodash';
+import { Op } from 'sequelize';
+import sequelize from '../lib/db';
+import { GroupLevel, IdentityType, MountType } from '../lib/type';
+import { GroupModel } from '../model/group';
 import { GroupPermissionModel } from '../model/group-permission';
 import { PermissionModel } from '../model/permission';
-import { GroupModel } from '../model/group';
-
-import sequelize from '../lib/db';
-import { MountType, GroupLevel, IdentityType } from '../lib/type';
-import { Op } from 'sequelize';
-import { set, has, uniq } from 'lodash';
+import { UserIdentityModel, UserModel } from '../model/user';
+import { UserGroupModel } from '../model/user-group';
+import Email from '../server/email';
 
 class UserDao {
+  async getUserInfos (ctx) {
+    // 总用户数
+    let data = await UserModel.count();
+    // 新增用户数
+    let n = await UserModel.count({
+      where: {
+        create_time: {
+          [Op.lt]: new Date(),
+          [Op.gt]: new Date(new Date() - 7 * 24 * 60 * 60 * 1000)
+        }
+      }
+    });
+    return {
+      UserTotal: data,
+      newWeekUser: n
+    };
+  }
+
   async createUser (v) {
     let user = await UserModel.findOne({
       where: {
@@ -47,7 +65,8 @@ class UserDao {
         });
       }
     }
-    await this.registerUser(v);
+    const user_id = await this.registerUser(v);
+    await Email.createEmail(user_id, v.get('body.email'));
   }
 
   async updateUser (ctx, v) {
@@ -164,6 +183,7 @@ class UserDao {
 
   async registerUser (v) {
     let transaction;
+    let id;
     try {
       transaction = await sequelize.transaction();
       const user = {
@@ -175,6 +195,7 @@ class UserDao {
       const { id: user_id } = await UserModel.create(user, {
         transaction
       });
+      id = user_id;
       await UserIdentityModel.create(
         {
           user_id,
@@ -216,7 +237,7 @@ class UserDao {
     } catch (error) {
       if (transaction) await transaction.rollback();
     }
-    return true;
+    return id;
   }
 
   formatPermissions (permissions) {

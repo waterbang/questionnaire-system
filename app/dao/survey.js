@@ -1,10 +1,10 @@
-import { NotFound, Forbidden } from 'lin-mizar';
-import { Survey } from '../model/survey';
-import { Rule } from '../model/rule';
-import { RuleDao } from './rule';
-
+import { Forbidden, NotFound } from 'lin-mizar';
 import { set } from 'lodash';
+import { Op } from 'sequelize';
 import sequelize from '../lib/db';
+import { Rule } from '../model/rule';
+import { Survey } from '../model/survey';
+import { RuleDao } from './rule';
 
 Survey.hasOne(Rule, { foreignKey: 'survey_id' }); // 一对一
 const ruleDao = new RuleDao();
@@ -46,7 +46,7 @@ class SurveyDao {
     };
   }
 
-  async createSurvey (v) {
+  async createSurvey (v, ctx) {
     const survey = await Survey.findOne({
       where: {
         title: v.get('body.title')
@@ -62,6 +62,7 @@ class SurveyDao {
       transaction = await sequelize.transaction();
       const sy = new Survey();
       sy.title = v.get('body.title');
+      sy.user_id = ctx.currentUser.id;
       sy.header_desc = v.get('body.header_desc');
       sy.footer_desc = v.get('body.footer_desc');
       sy.detail = v.get('body.detail');
@@ -98,7 +99,7 @@ class SurveyDao {
 
       await transaction.commit();
     } catch (err) {
-      console.log(err)
+      console.log(err);
       if (transaction) await transaction.rollback();
     }
   }
@@ -146,6 +147,29 @@ class SurveyDao {
     } catch (err) {
       if (transaction) await transaction.rollback();
     }
+  }
+  async getSurveyInfos (ctx) {
+    let data = await Survey.count();
+    // 新增问卷数
+    let n = await Survey.count({
+      where: {
+        create_time: {
+          [Op.lt]: new Date(),
+          [Op.gt]: new Date(new Date() - 30 * 24 * 60 * 60 * 1000)
+        }
+      }
+    });
+    // 个人总问卷量
+    let user = await Survey.count({
+      where: {
+        user_id: ctx.currentUser.id
+      }
+    });
+    return {
+      surveyTotal: data,
+      newMonthSurveys: n,
+      userSurveys: user
+    };
   }
 }
 
