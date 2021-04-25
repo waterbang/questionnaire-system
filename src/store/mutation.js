@@ -2,12 +2,16 @@ import * as types from './mutation-type'
 
 export default {
   [types.SET_LOGINED](state) {
-    /* eslint no-param-reassign: 0 */
     state.logined = true
+  },
+
+  [types.SET_EMAIL_LIVE](state) {
+    state.isLive = true
   },
 
   [types.REMOVE_LOGINED](state) {
     state.logined = false
+    state.isLive = false
     state.user = null
   },
 

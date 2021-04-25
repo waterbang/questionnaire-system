@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createLogger from 'vuex/dist/logger'
 import VuexPersistence from 'vuex-persist'
+import createLogger from 'vuex/dist/logger'
+// eslint-disable-next-line import/no-cycle
+import actions from './action'
+import * as getters from './getter'
+import surveyStore from './module/survey'
 import mutations from './mutation'
 import state from './state'
-import * as getters from './getter'
-import actions from './action'
-import surveyStore from './module/survey'
 
 Vue.use(Vuex)
 
@@ -15,6 +16,7 @@ const vuexLocal = new VuexPersistence({
   reducer: stateData => ({
     // eslint-disable-line
     logined: stateData.logined,
+    isLive: stateData.isLive,
     user: stateData.user,
     permissions: stateData.permissions,
   }),

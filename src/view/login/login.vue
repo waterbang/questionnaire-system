@@ -53,8 +53,6 @@ export default {
         await User.getToken(username, password)
         await this.getInformation()
         this.loading = false
-        this.$router.push('/about')
-        this.$message.success('登录成功')
       } catch (e) {
         this.loading = false
       }
@@ -65,6 +63,17 @@ export default {
         const user = await User.getPermissions()
         this.setUserAndState(user)
         this.setUserPermissions(user.permissions)
+        const islive = await this.$store.dispatch('setEmailLiveState')
+        if (islive) {
+          this.$message.success('登录成功')
+          this.$router.push('/about')
+        } else {
+          this.$router.push('/checkCode')
+          this.$notify({
+            title: '邮箱未激活',
+            message: '您邮箱未激活,请先激活再登录哟',
+          })
+        }
       } catch (e) {
         console.log(e)
       }

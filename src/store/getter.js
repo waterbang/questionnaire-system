@@ -19,6 +19,8 @@ const deepTravel = (obj, fuc) => {
   }
 }
 
+export const isLive = state => state.isLive
+
 export const logined = state => state.logined
 
 export const user = state => state.user

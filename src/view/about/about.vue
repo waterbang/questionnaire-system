@@ -145,7 +145,7 @@
                 “Git的精髓在于让所有人的贡献无缝合并。而GitHub的天才之处，在于理解了Git的精髓。”来一句我们程序员们接地气的话：分享是一种快乐~
               </div>
               <div class="article-tool">
-                <div class="pubdate">2019年5月26日</div>
+                <div class="pubdate">2020年5月26日</div>
                 <div class="article-about">
                   <span><i class="iconfont icon-shoucang"></i>37</span>
                   <el-divider direction="vertical"></el-divider>

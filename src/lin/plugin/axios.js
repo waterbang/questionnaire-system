@@ -1,10 +1,11 @@
 // ajax 封装插件, 使用 axios
-import Vue from 'vue'
-import axios from 'axios'
 import Config from '@/config'
 import ErrorCode from '@/config/error-code'
-import store from '@/store'
 import { getToken, saveAccessToken } from '@/lin/util/token'
+// eslint-disable-next-line import/no-cycle
+import store from '@/store'
+import axios from 'axios'
+import Vue from 'vue'
 
 const config = {
   baseURL: Config.baseURL || process.env.apiUrl || '',

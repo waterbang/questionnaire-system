@@ -3,6 +3,7 @@ import stageConfig from '@/config/stage' // 引入舞台配置
 
 export default {
   logined: false, // 是否登录
+  isLive: false, // 是否激活邮箱
   user: {}, // 当前用户
   sideBarLevel: AppConfig.sideBarLevel || 3,
   defaultRoute: AppConfig.defaultRoute || '/about',

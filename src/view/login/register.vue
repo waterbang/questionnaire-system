@@ -36,9 +36,11 @@ import lottie from 'lottie-web'
 import Tiger from '@/assets/lottie/tigerhi.json'
 import Rabbit from '@/assets/lottie/presto-rabbit.json'
 import User from '@/lin/model/user'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'register',
+  inject: ['eventBus'],
   data() {
     // 验证回调函数
     const checkUserName = (rule, value, callback) => {
@@ -107,19 +109,21 @@ export default {
             this.loading = true
             const res = await User.userRegister(this.form)
             if (res.code < window.MAX_SUCCESS_CODE) {
-              this.loading = false
               this.$message.success(`${res.message}`)
               this.eventBus.$emit('addUser', true)
-              this.resetForm(formName)
+              await User.getToken(this.form.username, this.form.password)
+              await this.getInformation()
+              this.loading = false
+              this.$router.push({ path: '/checkCode' })
             }
           } catch (e) {
+            console.log(e)
             this.loading = false
-            if (e.data.code === 10073 || e.data.code === 10071) {
+            if (e.data.code !== 9999) {
               this.$message.error(e.data.message)
             } else {
               this.$message.error('新增用户失败')
             }
-            console.log(e)
           }
         } else {
           console.log('error submit!!')
@@ -127,6 +131,20 @@ export default {
         }
       })
     },
+    async getInformation() {
+      try {
+        // 尝试获取当前用户信息
+        const user = await User.getPermissions()
+        this.setUserAndState(user)
+        this.setUserPermissions(user.permissions)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    ...mapActions(['setUserAndState']),
+    ...mapMutations({
+      setUserPermissions: 'SET_USER_PERMISSIONS',
+    }),
     onCallback() {
       this.$router.go(-1)
     },

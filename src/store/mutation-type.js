@@ -1,5 +1,7 @@
 // 设置登录
 export const SET_LOGINED = 'SET_LOGINED'
+// 设置登录
+export const SET_EMAIL_LIVE = 'SET_EMAIL_LIVE'
 // 登出
 export const REMOVE_LOGINED = 'REMOVE_LOGINED'
 // 设置用户

@@ -1,5 +1,7 @@
-import * as types from './mutation-type'
 import { removeToken } from '@/lin/util/token'
+// eslint-disable-next-line import/no-cycle
+import Email from '../model/email'
+import * as types from './mutation-type'
 
 export default {
   setUserAndState({ commit }, user) {
@@ -7,6 +9,12 @@ export default {
     commit(types.SET_LOGINED, true)
     // 设置全局用户状态
     commit(types.SET_USER, user)
+  },
+
+  async setEmailLiveState({ commit }) {
+    const user = await Email.getEmailIsIlve()
+    commit(types.SET_EMAIL_LIVE)
+    return user.islive
   },
 
   loginOut({ commit }) {

@@ -50,6 +50,15 @@ router.beforeEach((to, from, next) => {
     next({ path: '/login' })
     return
   }
+  if (isLoginRequired(to.name) && store.state.logined && !store.state.isLive) {
+    Vue.prototype.$notify({
+      title: '邮箱未激活📮',
+      dangerouslyUseHTMLString: true,
+      message: '<strong class="my-notify">您邮箱未激活,请先激活再登录哟</strong>',
+    })
+    next({ path: '/checkCode' })
+    return
+  }
 
   // TODO: tab 模式重复点击验证
 
