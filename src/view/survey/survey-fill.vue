@@ -121,6 +121,7 @@ import { getStartEndSecond } from '../../lin/util/date'
 
 let surveyId = 1
 let username = null
+let user_id = null
 let startTime = new Date()
 export default {
   name: 'fillsurvey',
@@ -200,10 +201,11 @@ export default {
               path: '/login',
             })
           }, 1000)
+          return
         }
-        username = this.$store.getters.user && this.$store.getters.user.nickname
-        console.log(this.$store.getters.user, this.$store.getters.user.nickname)
       }
+      username = this.$store.getters.user && this.$store.getters.user.nickname
+      user_id = this.$store.getters.user && this.$store.state.user.id
     },
     // 获取问卷信息
     getSurvey(id) {
@@ -278,7 +280,7 @@ export default {
       const quiz_time = getStartEndSecond(new Date().getTime() - startTime.getTime()) // 获取用户答题的时间
       console.log(quiz_time, username)
       surveyModel
-        .fillSurvey(surveyId, username, quiz_time, this.result)
+        .fillSurvey(surveyId, username, quiz_time, user_id, this.result)
         .then(res => {
           if (res.code === 17) {
             this.$message({

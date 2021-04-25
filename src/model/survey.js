@@ -1,4 +1,4 @@
-import _axios, { get, put, _delete, post } from '@/lin/plugin/axios'
+import _axios, { get, post, put, _delete } from '@/lin/plugin/axios'
 
 class Survey {
   async createSurvey(data) {
@@ -41,10 +41,11 @@ class Survey {
     return res
   }
 
-  async fillSurvey(id, username, quiz_time, detail) {
+  async fillSurvey(id, username, quiz_time, user_id, detail) {
     const res = await post(`/v1/survey/fill/${id}`, {
       username,
       quiz_time,
+      user_id,
       detail,
     })
     return res

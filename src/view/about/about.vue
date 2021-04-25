@@ -6,7 +6,7 @@
           <div class="welcome-title">🌽玉米问卷调查系统</div>
           <div class="subtitle">
             <div class="guide">您还可以点击巨型玉米饼官方网站，查看更多作品</div>
-            <div class="link"><a href="https://nn.waterbang.top" target="_blank">https://nn.waterbang.top</a></div>
+            <div class="link"><a href="https://waterbang.top" target="_blank">https://nn.waterbang.top</a></div>
           </div>
         </div>
         <img class="welcome-bg" src="../../assets/image/about/header-bg.png" alt="" />
@@ -47,9 +47,9 @@
       <div class="quantity-item">
         <div class="quantity-detail">
           <div class="quantity-detail-box">
-            <div class="quantity-title">总访问量</div>
+            <div class="quantity-title">总问卷量</div>
             <div class="quantity-border-line"></div>
-            <div class="quantity">90</div>
+            <div class="quantity">{{ statistics.surveyTotal }}</div>
           </div>
         </div>
         <div class="quantity-icon"><img src="../../assets/image/about/icon.png" alt="" /></div>
@@ -59,7 +59,7 @@
           <div class="quantity-detail-box">
             <div class="quantity-title">总用户数</div>
             <div class="quantity-border-line"></div>
-            <div class="quantity">2</div>
+            <div class="quantity">{{ statistics.UserTotal }}</div>
           </div>
         </div>
         <div class="quantity-icon"><img src="../../assets/image/about/icon.png" alt="" /></div>
@@ -69,7 +69,7 @@
           <div class="quantity-detail-box">
             <div class="quantity-title">新增问卷量 (月)</div>
             <div class="quantity-border-line"></div>
-            <div class="quantity">12</div>
+            <div class="quantity">{{ statistics.newMonthSurveys }}</div>
           </div>
         </div>
         <div class="quantity-icon"><img src="../../assets/image/about/icon.png" alt="" /></div>
@@ -77,9 +77,9 @@
       <div class="quantity-item">
         <div class="quantity-detail">
           <div class="quantity-detail-box">
-            <div class="quantity-title">新增用户数</div>
+            <div class="quantity-title">新增用户数(周)</div>
             <div class="quantity-border-line"></div>
-            <div class="quantity">1</div>
+            <div class="quantity">{{ statistics.newWeekUser }}</div>
           </div>
         </div>
         <div class="quantity-icon"><img src="../../assets/image/about/icon.png" alt="" /></div>
@@ -88,18 +88,18 @@
     <div class="information">
       <div class="personal">
         <div class="personal-title">个人信息</div>
-        <img src="../../assets/image/about/avatar.png" class="personal-avatar" />
+        <img :src="avatar" class="personal-avatar" />
         <div class="personal-influence">
           <div class="personal-influence-item">
-            <div class="personal-influence-num color1">11</div>
+            <div class="personal-influence-num color1">{{ statistics.userFillNums }}</div>
             <div class="personal-influece-label">总答卷量</div>
           </div>
           <div class="personal-influence-item">
-            <div class="personal-influence-num color2">0</div>
+            <div class="personal-influence-num color2">{{ statistics.userMonthFill }}</div>
             <div class="personal-influece-label">本月答卷量</div>
           </div>
           <div class="personal-influence-item">
-            <div class="personal-influence-num color3">2</div>
+            <div class="personal-influence-num color3">{{ statistics.userSurveys }}</div>
             <div class="personal-influece-label">问卷量</div>
           </div>
         </div>
@@ -163,21 +163,42 @@
 </template>
 
 <script>
+import userModel from '../../model/user'
+
 export default {
   data() {
     return {
       activeName: 'first',
       showTeam: false,
+      statistics: {
+        UserTotal: 8,
+        newMonthSurveys: 0,
+        newWeekUser: 6,
+        surveyTotal: 0,
+        userSurveys: 0,
+        userFillNums: 0,
+        userMonthFill: 0,
+      },
     }
+  },
+  computed: {
+    avatar() {
+      return this.$store.state.user.avatar
+    },
   },
   mounted() {
     if (document.body.clientWidth > 1200 && document.body.clientWidth < 1330) {
       this.showTeam = true
     }
+    this.getSurveyCount()
   },
   methods: {
     handleArticle(link) {
       window.open(link)
+    },
+    // 初始化统计数据
+    async getSurveyCount() {
+      this.statistics = await userModel.getUserAbout()
     },
   },
 }

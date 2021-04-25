@@ -35,6 +35,12 @@ export default {
     _getSurveyList() {
       surveyModel.getSurveys().then(res => {
         this.survey = res.items
+        if (res.total === 0) {
+          this.$notify.info({
+            title: '您还没有创建问卷',
+            message: '点击新建项目开始创建问卷',
+          })
+        }
       })
     },
     // 创建项目

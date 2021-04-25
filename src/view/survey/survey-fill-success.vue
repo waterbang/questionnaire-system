@@ -10,7 +10,7 @@ export default {
   methods: {
     backRoule() {
       this.$router.push({
-        path: '/about',
+        path: '/survey/list',
       })
     },
   },
