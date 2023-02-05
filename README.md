@@ -16,16 +16,16 @@ node - koa - LinValidator - lin-mizar
 
 ### 样式概览
 #### 问卷管理页面
-![问卷管理页面](http://qiniu-waterbang.waterbang.top/questionnaire.png)
+![问卷管理页面](http://qiniu-waterbang.waterbang.top/questionnaire/questionnaire.png)
 
 #### 问卷编辑页面
-![问卷编辑页面](http://qiniu-waterbang.waterbang.top/edit.png)
+![问卷编辑页面](http://qiniu-waterbang.waterbang.top/questionnaire/edit.png)
 
 #### 问卷数据统计页面 (单选)
-![问卷数据统计页面 (单选)](http://qiniu-waterbang.waterbang.top/data.png)
+![问卷数据统计页面 (单选)](http://qiniu-waterbang.waterbang.top/questionnaire/data.png)
 
 #### 问卷数据统计页面（多选）
-![问卷数据统计页面（多选）](http://qiniu-waterbang.waterbang.top/multiple.png)
+![问卷数据统计页面（多选）](http://qiniu-waterbang.waterbang.top/questionnaire/multiple.png)
 
 ### 当前支持的题目和功能
 
