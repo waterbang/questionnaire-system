@@ -6,6 +6,9 @@ vue - vue-router - vuex - linPlugin - scss
 
 node - koa - LinValidator - lin-mizar 
 
+> warring 如果您nodejs version > 16 需要环境设置环境变量
+> export NODE_OPTIONS=--openssl-legacy-provider
+
 >master分支是前台，koa分支是后端
 
 ### 样式概览
